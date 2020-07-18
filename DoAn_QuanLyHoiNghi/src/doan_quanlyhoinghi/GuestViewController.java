@@ -1,0 +1,106 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package doan_quanlyhoinghi;
+
+import DAO.ConferencesDAO;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import pojos.Conferences;
+
+/**
+ *
+ * @author ThanhTung
+ */
+public class GuestViewController implements Initializable {
+
+    @FXML
+    private TableView<Conferences> conferenceTable;
+    @FXML
+    private TableColumn<Conferences, Integer> IDCol;
+    @FXML
+    private TableColumn<Conferences, String> nameCol;
+    @FXML
+    private TableColumn<Conferences, String> descriptionCol;
+
+    private ObservableList<Conferences> observableList;
+    
+    @FXML
+    private Button watchingDetailButton;
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        loadConferencesIntoTableView();
+    }
+    
+    /**
+     * Khi khởi mở chương tình sẽ lấy thông tin (ID, tên, mô tả ngắn gọn) của tất cả hội nghị trong DB
+     * và tải vào table view
+     */
+    private void loadConferencesIntoTableView() {
+        this.observableList = FXCollections.observableArrayList();
+        this.observableList.addAll(ConferencesDAO.getAll());
+
+        //set up column
+        this.IDCol.setCellValueFactory(new PropertyValueFactory<>("conferenceId"));
+        this.nameCol.setCellValueFactory(new PropertyValueFactory<>("conferenceName"));
+        this.descriptionCol.setCellValueFactory(new PropertyValueFactory<>("briefDescription"));
+
+        //set up table view
+        this.conferenceTable.setItems(this.observableList);
+    }
+    
+    /**
+     * chọn 1 hội nghị và chuyển sang màn hình xem chi tiết hội nghị
+     * nếu chưa chọn hội nghị thì xuất thông báo yêu cầu chọn hội nghị
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    private void switchDetailScene(ActionEvent event) throws IOException{
+        Conferences conference = conferenceTable.getSelectionModel().getSelectedItem();
+        
+        if (conference != null) {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("DetailConferenceScene.fxml"));
+            
+            //lấy thông tin của stage chi tiết hội nghị
+            Parent detailConferenceParent = loader.load();
+            Scene detailConferenceScene = new Scene(detailConferenceParent);
+            
+            //truyền thông tin hội nghị đã chọn
+            DetailConferenceSceneController controller = loader.getController();
+            controller.initConferenceInfor(conference);
+            
+            //show
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(detailConferenceScene);
+            window.show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Bạn cần phải chọn 1 hội nghị để xem chi tiết.");
+            alert.setTitle("NULL");
+            alert.showAndWait();
+        }
+        
+    }
+}

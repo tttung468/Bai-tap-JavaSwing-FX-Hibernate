@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 16, 2020 9:36:04 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="pojos.Places" table="places" catalog="conference_manager_db" optimistic-lock="version"
+        dynamic-insert="true" dynamic-update="true"
+    >
+        <id name="placeId" type="java.lang.Integer">
+            <column name="place_id" />
+            <generator class="identity" />
+        </id>
+        <property name="placeName" type="string">
+            <column name="place_name" length="50" not-null="true" />
+        </property>
+        <property name="placeAddress" type="string">
+            <column name="place_address" length="50" not-null="true" />
+        </property>
+        <property name="capacity" type="int">
+            <column name="capacity" not-null="true" />
+        </property>
+        <property name="isDeleted" type="boolean">
+            <column name="is_deleted" not-null="true" />
+        </property>
+        <set name="conferenceses" table="conferences" inverse="true" lazy="false" fetch="join">
+            <key>
+                <column name="organized_place_id" not-null="true" />
+            </key>
+            <one-to-many class="pojos.Conferences" />
+        </set>
+    </class>
+</hibernate-mapping>
