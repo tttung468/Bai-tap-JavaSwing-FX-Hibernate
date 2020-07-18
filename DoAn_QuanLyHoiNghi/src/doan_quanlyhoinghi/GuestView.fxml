@@ -7,21 +7,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="556.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/8.0.251" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doan_quanlyhoinghi.GuestViewController">
+<AnchorPane id="AnchorPane" prefHeight="581.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doan_quanlyhoinghi.GuestViewController">
    <children>
-      <Label layoutX="169.0" layoutY="14.0" prefHeight="72.0" prefWidth="615.0" text="Chương trình quản lý tổ chức Hội nghị" textAlignment="JUSTIFY">
+      <Label layoutX="168.0" layoutY="38.0" prefHeight="72.0" prefWidth="615.0" text="Chương trình quản lý tổ chức Hội nghị" textAlignment="JUSTIFY">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <TableView fx:id="conferenceTable" layoutX="57.0" layoutY="99.0" prefHeight="359.0" prefWidth="838.0">
+      <TableView fx:id="conferenceTable" layoutX="57.0" layoutY="141.0" onMouseClicked="#clickOnTableView" prefHeight="361.0" prefWidth="838.0">
         <columns>
           <TableColumn fx:id="IDCol" prefWidth="115.20004653930664" style="-fx-alignment: CENTER;" text="ID" />
-          <TableColumn fx:id="nameCol" prefWidth="303.199951171875" text="Tên Hội nghị" />
-            <TableColumn fx:id="descriptionCol" prefWidth="419.20001220703125" text="Giới thiệu ngắn gọn" />
+          <TableColumn fx:id="nameCol" prefWidth="303.99998474121094" text="Tên Hội nghị" />
+            <TableColumn fx:id="descriptionCol" prefWidth="419.2000732421875" text="Giới thiệu ngắn gọn" />
         </columns>
       </TableView>
-      <Button fx:id="watchingDetailButton" layoutX="377.0" layoutY="486.0" mnemonicParsing="false" onAction="#switchDetailScene" text="Xem chi tiết hội nghị">
+      <Button fx:id="watchingDetailButton" layoutX="376.0" layoutY="527.0" mnemonicParsing="false" onAction="#switchDetailScene" text="Xem chi tiết hội nghị">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

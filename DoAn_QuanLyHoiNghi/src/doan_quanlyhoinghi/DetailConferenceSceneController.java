@@ -5,8 +5,10 @@
  */
 package doan_quanlyhoinghi;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +19,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import pojos.Conferences;
 
@@ -45,6 +49,8 @@ public class DetailConferenceSceneController implements Initializable {
     private Label attendeesLabel;
     
     private Conferences selectedConference;
+    @FXML
+    private ImageView imageView;
 
     /**
      * Initializes the controller class.
@@ -75,16 +81,64 @@ public class DetailConferenceSceneController implements Initializable {
      * @param conference 
      */
     public void initConferenceInfor(Conferences conference){
-        String str;
+        String tempStr = "\\doan_quanlyhoinghi\\conferenceImage\\";
+        SimpleDateFormat ft = new SimpleDateFormat ("E yyyy-MM-dd");
+        
+        //lấy đường dẫn đang làm việc
+        File file = new File("");
+        String currentDirectory = file.getAbsolutePath() + "\\src\\doan_quanlyhoinghi\\conferenceImage\\" 
+                + conference.getImageLink();
+        //System.out.println(currentDirectory);
+        
+        //kiểm tra ảnh có tồn tại
+        //nếu tồn tại thì lấy ảnh lên, không tồn tại thì lấy ảnh mặc định
+        File f = new File(currentDirectory);
+        if (f.exists()) {
+            //System.out.println("File existed");
+            tempStr += conference.getImageLink();   //ảnh tồn tại
+        } else {
+            //System.out.println("File not found!");
+            tempStr += "image0.jpg";                //ảnh không tồn tại, lấy ảnh mặc định
+        }
+        Image image = new Image(tempStr);   //lấy ảnh
         
         this.selectedConference = conference;
         this.nameConferenceLabel.setText(selectedConference.getConferenceName());
         this.briefDescriptionLabel.setText(selectedConference.getBriefDescription());
         this.detailedDescriptionLabel.setText(selectedConference.getDetailedDescription());
         this.placeLabel.setText(selectedConference.getPlaces().getPlaceName());
-        str = Integer.toString(selectedConference.getRegisteredAttendees());
-        str += " / " + Integer.toString(selectedConference.getPlaces().getCapacity());
-        this.attendeesLabel.setText(str);
-        this.timeLabel.setText("0000-00-00");
+        tempStr = Integer.toString(selectedConference.getRegisteredAttendees());
+        tempStr += " / " + Integer.toString(selectedConference.getPlaces().getCapacity());
+        this.attendeesLabel.setText(tempStr);
+        this.timeLabel.setText(ft.format(conference.getOrganizedTime()));
+        this.imageView.setImage(image);
+        centerImage();
+    }
+    
+    //điều chỉnh ảnh vào chính giữa của imageView
+    //nguồn: https://stackoverflow.com/questions/32781362/centering-an-image-in-an-imageview/32866286#32866286
+    public void centerImage() {
+        Image img = imageView.getImage();
+        if (img != null) {
+            double w = 0;
+            double h = 0;
+
+            double ratioX = imageView.getFitWidth() / img.getWidth();
+            double ratioY = imageView.getFitHeight() / img.getHeight();
+
+            double reducCoeff = 0;
+            if(ratioX >= ratioY) {
+                reducCoeff = ratioY;
+            } else {
+                reducCoeff = ratioX;
+            }
+
+            w = img.getWidth() * reducCoeff;
+            h = img.getHeight() * reducCoeff;
+
+            imageView.setX((imageView.getFitWidth() - w) / 2);
+            imageView.setY((imageView.getFitHeight() - h) / 2);
+
+        }
     }
 }

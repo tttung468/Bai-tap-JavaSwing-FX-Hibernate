@@ -48,7 +48,8 @@ public class GuestViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loadConferencesIntoTableView();
+        loadConferencesIntoTableView();     //tải thông tin hội nghị vào table view
+        this.watchingDetailButton.setDisable(true);     //không cho người dùng xem chi tiết cho đến khi chọn 1 hội nghị
     }
     
     /**
@@ -57,7 +58,7 @@ public class GuestViewController implements Initializable {
      */
     private void loadConferencesIntoTableView() {
         this.observableList = FXCollections.observableArrayList();
-        this.observableList.addAll(ConferencesDAO.getAll());
+        this.observableList.addAll(ConferencesDAO.getAll());    //lấy danh sách hội nghị
 
         //set up column
         this.IDCol.setCellValueFactory(new PropertyValueFactory<>("conferenceId"));
@@ -77,30 +78,31 @@ public class GuestViewController implements Initializable {
     @FXML
     private void switchDetailScene(ActionEvent event) throws IOException{
         Conferences conference = conferenceTable.getSelectionModel().getSelectedItem();
-        
+      
         if (conference != null) {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("DetailConferenceScene.fxml"));
-            
+
             //lấy thông tin của stage chi tiết hội nghị
             Parent detailConferenceParent = loader.load();
             Scene detailConferenceScene = new Scene(detailConferenceParent);
-            
+
             //truyền thông tin hội nghị đã chọn
             DetailConferenceSceneController controller = loader.getController();
             controller.initConferenceInfor(conference);
-            
-            //show
+
+            //chuyển màn hình chi tiết hội nghị
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(detailConferenceScene);
             window.show();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setContentText("Bạn cần phải chọn 1 hội nghị để xem chi tiết.");
-            alert.setTitle("NULL");
-            alert.showAndWait();
         }
-        
+    }
+    
+    /**
+     * cho người dùng xem chi tiết hội nghị
+     */
+    @FXML
+    private void clickOnTableView(){
+        this.watchingDetailButton.setDisable(false);
     }
 }

@@ -36,7 +36,7 @@ CREATE TABLE conferences (
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id, registered_attendees)
 VALUES ('1999 UEFA Champions League Final','Match between MU vs Bayer'
 ,'Man United won the treble of trophies (the Premier League, FA Cup and C1)'
-,'image1.jpg', '1999-05-26',1,100);
+,'image1.jpg', '1999-05-26',1,5);
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id)
 VALUES ('G7 summit','G7 = Group of Seven'
 ,'Core G7 members :Canada, France, Germany, Italy, Japan, UK, US'
