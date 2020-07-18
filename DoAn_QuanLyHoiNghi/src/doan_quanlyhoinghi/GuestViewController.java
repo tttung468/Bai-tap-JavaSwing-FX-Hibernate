@@ -6,6 +6,7 @@
 package doan_quanlyhoinghi;
 
 import DAO.ConferencesDAO;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,9 +21,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import pojos.Conferences;
 
@@ -45,6 +49,10 @@ public class GuestViewController implements Initializable {
     
     @FXML
     private Button watchingDetailButton;
+    @FXML
+    private MenuItem LoginMenuItem;
+    @FXML
+    private MenuItem helpMenuItem;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -104,5 +112,22 @@ public class GuestViewController implements Initializable {
     @FXML
     private void clickOnTableView(){
         this.watchingDetailButton.setDisable(false);
+    }
+    
+    @FXML
+    private void showHelpDialog(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        String imageLink = "\\doan_quanlyhoinghi\\conferenceImage\\fit_hcmus.jpg";
+        Image image = new Image(imageLink);
+        ImageView imageView = new ImageView(image);
+        
+        alert.setHeaderText(".");
+        alert.setGraphic(imageView);
+        alert.setContentText(" - Sinh viên thực hiện: Thái Thanh Tùng - 1712885\n"
+                + " - Bài tập môn Lập trình ứng dụng Java - 17_32 - HK2_2019_2020:"
+                + " Chương trình quản lý tổ chức Hội nghị"
+                + ", sử dụng JavaFX kết hợp Hibernate với database MySQL.");
+        alert.setTitle("Giới thiệu chương trình");
+        alert.showAndWait();
     }
 }
