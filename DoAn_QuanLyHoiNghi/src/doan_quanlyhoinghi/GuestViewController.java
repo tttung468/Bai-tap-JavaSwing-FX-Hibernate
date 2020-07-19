@@ -6,7 +6,6 @@
 package doan_quanlyhoinghi;
 
 import DAO.ConferencesDAO;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -43,16 +42,15 @@ public class GuestViewController implements Initializable {
     @FXML
     private TableColumn<Conferences, String> nameCol;
     @FXML
-    private TableColumn<Conferences, String> descriptionCol;
-
-    private ObservableList<Conferences> observableList;
-    
+    private TableColumn<Conferences, String> descriptionCol;  
     @FXML
     private Button watchingDetailButton;
     @FXML
     private MenuItem LoginMenuItem;
     @FXML
     private MenuItem helpMenuItem;
+    
+    private ObservableList<Conferences> observableList;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -84,7 +82,7 @@ public class GuestViewController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    private void switchDetailScene(ActionEvent event) throws IOException{
+    private void clickOnWatchingDetailButton(ActionEvent event) throws IOException{
         Conferences conference = conferenceTable.getSelectionModel().getSelectedItem();
       
         if (conference != null) {
@@ -95,9 +93,9 @@ public class GuestViewController implements Initializable {
             Parent detailConferenceParent = loader.load();
             Scene detailConferenceScene = new Scene(detailConferenceParent);
 
-            //truyền thông tin hội nghị đã chọn
+            //gửi thông tin hội nghị sang màn hình DetailConferenceScene
             DetailConferenceSceneController controller = loader.getController();
-            controller.initConferenceInfor(conference);
+            controller.initConferenceInfor(conference);        //gửi thông tin
 
             //chuyển màn hình chi tiết hội nghị
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -115,11 +113,11 @@ public class GuestViewController implements Initializable {
     }
     
     @FXML
-    private void showHelpDialog(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    private void clickOnHelpDialog(){
         String imageLink = "\\doan_quanlyhoinghi\\conferenceImage\\fit_hcmus.jpg";
         Image image = new Image(imageLink);
         ImageView imageView = new ImageView(image);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         
         alert.setHeaderText(".");
         alert.setGraphic(imageView);
@@ -130,4 +128,7 @@ public class GuestViewController implements Initializable {
         alert.setTitle("Giới thiệu chương trình");
         alert.showAndWait();
     }
+    
+    
+    
 }

@@ -24,21 +24,33 @@
             <TableColumn fx:id="descriptionCol" prefWidth="419.2000732421875" text="Giới thiệu ngắn gọn" />
         </columns>
       </TableView>
-      <Button fx:id="watchingDetailButton" layoutX="376.0" layoutY="527.0" mnemonicParsing="false" onAction="#switchDetailScene" text="Xem chi tiết hội nghị">
+      <Button fx:id="watchingDetailButton" layoutX="376.0" layoutY="527.0" mnemonicParsing="false" onAction="#clickOnWatchingDetailButton" text="Xem chi tiết hội nghị">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
       <MenuBar layoutY="2.0" prefHeight="26.0" prefWidth="954.0">
         <menus>
-          <Menu mnemonicParsing="false" text="Amin">
+          <Menu mnemonicParsing="false" text="Admin">
             <items>
-              <MenuItem fx:id="LoginMenuItem" mnemonicParsing="false" text="Log gin" />
+              <MenuItem fx:id="LoginMenuItem" mnemonicParsing="false" text="Đăng nhập" />
+                  <MenuItem fx:id="LoginMenuItem2" mnemonicParsing="false" text="Đăng xuất" />
+                  <MenuItem fx:id="LoginMenuItem21" mnemonicParsing="false" text="Xem profile" />
+                  <MenuItem fx:id="LoginMenuItem211" mnemonicParsing="false" text="Quản lý hội nghị" />
+                  <MenuItem fx:id="LoginMenuItem2111" mnemonicParsing="false" text="Quản lý User" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+            <Menu mnemonicParsing="false" text="User">
+               <items>
+                  <MenuItem fx:id="LoginMenuItem1" mnemonicParsing="false" text="Đăng nhập" />
+                  <MenuItem fx:id="LoginMenuItem11" mnemonicParsing="false" text="Đăng xuất" />
+                  <MenuItem fx:id="LoginMenuItem111" mnemonicParsing="false" text="Xem profile" />
+                  <MenuItem fx:id="LoginMenuItem1111" mnemonicParsing="false" text="Thống kê các hội nghị" />
+               </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Giúp đỡ">
             <items>
-              <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#showHelpDialog" text="About the program" />
+              <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#clickOnHelpDialog" text="Thông tin về chương trình" />
             </items>
           </Menu>
         </menus>
