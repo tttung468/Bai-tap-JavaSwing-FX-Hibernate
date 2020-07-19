@@ -36,31 +36,31 @@ CREATE TABLE conferences (
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id, registered_attendees)
 VALUES ('1999 UEFA Champions League Final','Match between MU vs Bayer'
 ,'Man United won the treble of trophies (the Premier League, FA Cup and C1)'
-,'image1.jpg', '1999-05-26',1,5);
+,'image1.jpg', '1999-05-26',1,4);
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id)
 VALUES ('G7 summit','G7 = Group of Seven'
 ,'Core G7 members :Canada, France, Germany, Italy, Japan, UK, US'
 ,'image2.jpg','2020-02-02',2);
-INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id)
+INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id, registered_attendees)
 VALUES ('The Last Dance Tour','The sixth concert tour of Big Bang'
 ,'The Last Dance Tour was Big Bang''s sixth concert tour in Japan'
-,'image3.jpg','2020-03-03',1);
+,'image3.jpg','2020-09-01',1,5);
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id)
 VALUES ('The 2018 FIFA World Cup','The 2018 FIFA World Cup in Russia'
 ,'An international football tournament contested by men''s national teams'
-,'image4.jpg','2020-04-04',4);
+,'image4.jpg','2020-09-09',4);
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id)
 VALUES ('The 2003 Southeast Asian Games','It was held in Vietnam'
 ,'The 22nd Southeast Asian Games, It was held in Vietnam'
-,'image5.jpg','2020-05-05',5);
+,'image5.jpg','2020-10-10',5);
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id)
 VALUES ('The 2010 FIFA World Cup','Egypt and Morocco host the finals'
 ,'It was the 19th FIFA World Cup, Egypt and Morocco host the finals'
-,'image6.jpg','2020-06-06',8);
+,'image6.jpg','2020-11-11',8);
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id)
 VALUES ('The 2020 Summer Olympics','officially the Games of the XXXII Olympiad'
 ,'the Games were rescheduled for 2021 as a result of the COVID-19 pandemic'
-,'image7.jpg','2020-07-07',6);
+,'image7.jpg','2020-12-12',6);
 
 CREATE TABLE admins (
 	admin_id INT(11) NOT NULL AUTO_INCREMENT,
