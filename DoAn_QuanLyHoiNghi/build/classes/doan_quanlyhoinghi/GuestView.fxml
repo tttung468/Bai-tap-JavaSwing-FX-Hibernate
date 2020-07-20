@@ -42,7 +42,6 @@
           </Menu>
             <Menu mnemonicParsing="false" text="User">
                <items>
-                  <MenuItem fx:id="LoginMenuItem1" mnemonicParsing="false" text="Đăng nhập" />
                   <MenuItem fx:id="LoginMenuItem11" mnemonicParsing="false" text="Đăng xuất" />
                   <MenuItem fx:id="LoginMenuItem111" mnemonicParsing="false" text="Xem profile" />
                   <MenuItem fx:id="LoginMenuItem1111" mnemonicParsing="false" text="Thống kê các hội nghị" />
@@ -50,7 +49,7 @@
             </Menu>
           <Menu mnemonicParsing="false" text="Giúp đỡ">
             <items>
-              <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#clickOnHelpDialog" text="Thông tin về chương trình" />
+              <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#clickOnHelpDialog" text="Thông tin chi tiết chương trình" />
             </items>
           </Menu>
         </menus>

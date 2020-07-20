@@ -11,12 +11,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="570.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doan_quanlyhoinghi.DetailConferenceSceneController">
    <children>
-      <Button fx:id="backGuestSceneButton" layoutX="848.0" layoutY="513.0" mnemonicParsing="false" onAction="#clickOnbackGuestSceneButton" prefHeight="39.0" prefWidth="204.0" text="Quay lại danh sách hội nghị">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Button>
-      <Button fx:id="registerButton" layoutX="591.0" layoutY="513.0" mnemonicParsing="false" onAction="#clickOnRegisterButton" prefHeight="39.0" prefWidth="171.0" text="Đăng ký tham dự">
+      <Button fx:id="backGuestSceneButton" mnemonicParsing="false" onAction="#clickOnbackGuestSceneButton" prefHeight="39.0" prefWidth="204.0" text="Quay lại danh sách hội nghị">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -26,6 +21,11 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
+      <Button fx:id="registerUserButton" layoutX="540.0" layoutY="513.0" mnemonicParsing="false" onAction="#clickOnRegisterUserButton" prefHeight="39.0" prefWidth="171.0" text="Đăng ký tài khoản mới">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
       <Label fx:id="nameConferenceLabel" layoutX="271.0" layoutY="32.0" prefHeight="40.0" prefWidth="514.0" style="-fx-alignment: CENTER;" text="Hội nghị abc">
          <font>
             <Font name="System Bold" size="18.0" />
@@ -97,5 +97,15 @@
          </children>
       </GridPane>
       <ImageView fx:id="imageView" fitHeight="400.0" fitWidth="514.0" layoutX="552.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="loginButton" layoutX="930.0" layoutY="513.0" mnemonicParsing="false" onAction="#clickOnLoginButton" prefHeight="39.0" prefWidth="135.0" text="Đăng nhập">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="joinConferenceButton" layoutX="749.0" layoutY="513.0" mnemonicParsing="false" onAction="#clickOnJoinConferenceButton" prefHeight="39.0" prefWidth="146.0" text="Đăng ký tham gia">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

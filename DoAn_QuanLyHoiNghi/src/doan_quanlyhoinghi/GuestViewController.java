@@ -28,6 +28,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import pojos.Conferences;
+import pojos.Users;
 
 /**
  *
@@ -42,25 +43,35 @@ public class GuestViewController implements Initializable {
     @FXML
     private TableColumn<Conferences, String> nameCol;
     @FXML
-    private TableColumn<Conferences, String> descriptionCol;  
+    private TableColumn<Conferences, String> descriptionCol;
     @FXML
     private Button watchingDetailButton;
     @FXML
     private MenuItem LoginMenuItem;
     @FXML
     private MenuItem helpMenuItem;
-    
+
     private ObservableList<Conferences> observableList;
+    Users loginUser;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadConferencesIntoTableView();     //tải thông tin hội nghị vào table view
         this.watchingDetailButton.setDisable(true);     //không cho người dùng xem chi tiết cho đến khi chọn 1 hội nghị
     }
-    
+
     /**
-     * Khi khởi mở chương tình sẽ lấy thông tin (ID, tên, mô tả ngắn gọn) của tất cả hội nghị trong DB
-     * và tải vào table view
+     * Nhận thông tin LoginUser
+     *
+     * @param loginUser
+     */
+    public void receiveLoginUserInfor(Users loginUser) {
+        this.loginUser = loginUser;
+    }
+
+    /**
+     * Khi khởi mở chương tình sẽ lấy thông tin (ID, tên, mô tả ngắn gọn) của
+     * tất cả hội nghị trong DB và tải vào table view
      */
     private void loadConferencesIntoTableView() {
         this.observableList = FXCollections.observableArrayList();
@@ -74,51 +85,59 @@ public class GuestViewController implements Initializable {
         //set up table view
         this.conferenceTable.setItems(this.observableList);
     }
-    
+
     /**
-     * chọn 1 hội nghị và chuyển sang màn hình xem chi tiết hội nghị
-     * nếu chưa chọn hội nghị thì xuất thông báo yêu cầu chọn hội nghị
+     * chọn 1 hội nghị và chuyển sang màn hình xem chi tiết hội nghị đồng thời
+     * truyền thông tin hội nghị vừa chọn và thông tin user nếu đã đăng nhập
+     *
      * @param event
-     * @throws IOException 
+     * @throws IOException
      */
     @FXML
-    private void clickOnWatchingDetailButton(ActionEvent event) throws IOException{
+    private void clickOnWatchingDetailButton(ActionEvent event) throws IOException {
         Conferences conference = conferenceTable.getSelectionModel().getSelectedItem();
-      
+
         if (conference != null) {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("DetailConferenceScene.fxml"));
+            loader.setLocation(getClass().getResource("DetailConferenceScene.fxml"));   //lấy location màn hình DetailConferenceScene
 
-            //lấy thông tin của stage chi tiết hội nghị
+            //tạo scene
             Parent detailConferenceParent = loader.load();
             Scene detailConferenceScene = new Scene(detailConferenceParent);
 
-            //gửi thông tin hội nghị sang màn hình DetailConferenceScene
+            //gửi thông tin hội nghị sang DetailConferenceScene
             DetailConferenceSceneController controller = loader.getController();
-            controller.initConferenceInfor(conference);        //gửi thông tin
+            controller.receiveConferenceInfor(conference);        //gửi thông tin
 
-            //chuyển màn hình chi tiết hội nghị
+            //gửi thông tin loginUser nếu đã đăng nhập sang DetailConferenceScene
+            controller.receiveLoginUserInfor(this.loginUser);
+
+            //tạo stage, chuyển DetailConferenceScene
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(detailConferenceScene);
+            window.setResizable(false);
             window.show();
         }
     }
-    
+
     /**
-     * cho người dùng xem chi tiết hội nghị
+     * cho người dùng xem chi tiết hội nghị khi nhấp vào tableView
      */
     @FXML
-    private void clickOnTableView(){
+    private void clickOnTableView() {
         this.watchingDetailButton.setDisable(false);
     }
-    
+
+    /**
+     * Hiển thị hộp thoại giới thiệu chương trình
+     */
     @FXML
-    private void clickOnHelpDialog(){
-        String imageLink = "\\doan_quanlyhoinghi\\conferenceImage\\fit_hcmus.jpg";
+    private void clickOnHelpDialog() {
+        String imageLink = "\\doan_quanlyhoinghi\\conferenceImage\\fit@hcmus.jpg";
         Image image = new Image(imageLink);
         ImageView imageView = new ImageView(image);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        
+
         alert.setHeaderText(".");
         alert.setGraphic(imageView);
         alert.setContentText(" - Sinh viên thực hiện: Thái Thanh Tùng - 1712885\n"
@@ -128,7 +147,5 @@ public class GuestViewController implements Initializable {
         alert.setTitle("Giới thiệu chương trình");
         alert.showAndWait();
     }
-    
-    
-    
+
 }

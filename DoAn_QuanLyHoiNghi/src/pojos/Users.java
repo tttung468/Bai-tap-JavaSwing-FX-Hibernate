@@ -84,7 +84,7 @@ public class Users implements java.io.Serializable {
         this.email = email;
     }
 
-    public boolean isIsBlocked() {
+    public boolean getIsBlocked() {
         return this.isBlocked;
     }
 
@@ -92,7 +92,7 @@ public class Users implements java.io.Serializable {
         this.isBlocked = isBlocked;
     }
 
-    public boolean isIsDeleted() {
+    public boolean getIsDeleted() {
         return this.isDeleted;
     }
 
