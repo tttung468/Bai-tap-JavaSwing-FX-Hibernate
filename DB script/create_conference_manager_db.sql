@@ -36,11 +36,11 @@ CREATE TABLE conferences (
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id, registered_attendees)
 VALUES ('1999 UEFA Champions League Final','Match between MU vs Bayer'
 ,'Man United won the treble of trophies (the Premier League, FA Cup and C1)'
-,'image1.jpg', '1999-05-26',1,4);
-INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id)
+,'image1.jpg', '1999-05-26',1,2);
+INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id, registered_attendees)
 VALUES ('G7 summit','G7 = Group of Seven'
 ,'Core G7 members :Canada, France, Germany, Italy, Japan, UK, US'
-,'image2.jpg','2020-02-02',2);
+,'image2.jpg','2021-02-02',2,3);
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id, registered_attendees)
 VALUES ('The Last Dance Tour','The sixth concert tour of Big Bang'
 ,'The Last Dance Tour was Big Bang''s sixth concert tour in Japan'
@@ -86,10 +86,16 @@ CREATE TABLE users (
 
 	CONSTRAINT pk_users PRIMARY KEY(user_id)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
-INSERT INTO users(full_name, username, pass, email) VALUES ('User A', 'userA', '456', 'userA@gmail.com');
-INSERT INTO users(full_name, username, pass, email) VALUES ('User B', 'userB', '456', 'userB@gmail.com');
-INSERT INTO users(full_name, username, pass, email) VALUES ('User C', 'userC', '456', 'userC@gmail.com');
-INSERT INTO users(full_name, username, pass, email, is_blocked) VALUES ('User D', 'userD', '456', 'userD@gmail.com', TRUE);
+INSERT INTO users(full_name, username, pass, email) VALUES ('User 1', 'user1', '24c9e15e52afc47c225b757e7bee1f9d', 'user1@gmail.com');
+INSERT INTO users(full_name, username, pass, email, is_blocked) VALUES ('User 2', 'user2', '7e58d63b60197ceb55a1c487989a3720', 'user2@gmail.com', TRUE);
+INSERT INTO users(full_name, username, pass, email) VALUES ('User 3', 'user3', '92877af70a45fd6a2ed7fe81e1236b78', 'user3@gmail.com');
+INSERT INTO users(full_name, username, pass, email) VALUES ('User 4', 'user4', '3f02ebe3d7929b091e3d8ccfde2f3bc6', 'user4@gmail.com');
+INSERT INTO users(full_name, username, pass, email) VALUES ('User 5', 'user5', '0a791842f52a0acfbb3a783378c066b8', 'user5@gmail.com');
+INSERT INTO users(full_name, username, pass, email) VALUES ('User 6', 'user6', 'affec3b64cf90492377a8114c86fc093', 'user6@gmail.com');
+INSERT INTO users(full_name, username, pass, email) VALUES ('User 7', 'user7', '3e0469fb134991f8f75a2760e409c6ed', 'user7@gmail.com');
+INSERT INTO users(full_name, username, pass, email) VALUES ('User 8', 'user8', '7668f673d5669995175ef91b5d171945', 'user8@gmail.com');
+INSERT INTO users(full_name, username, pass, email) VALUES ('User 9', 'user9', '8808a13b854c2563da1a5f6cb2130868', 'user9@gmail.com');
+INSERT INTO users(full_name, username, pass, email) VALUES ('User 10', 'user10', '990d67a9f94696b1abe2dccf06900322', 'user10@gmail.com');
 
 CREATE TABLE registered_users (
     user_id INT(11) NOT NULL,
@@ -110,7 +116,7 @@ INSERT INTO registered_users (user_id, conference_id) VALUES (3, 1);
 
 
 
-DROP DATABASE conference_manager_db;
+
 
 DROP TABLE admins;
 DROP TABLE conferences;
