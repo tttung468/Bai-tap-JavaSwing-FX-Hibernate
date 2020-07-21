@@ -5,6 +5,7 @@
  */
 package doan_quanlyhoinghi;
 
+import DAO.RegisteredUsersDAO;
 import DAO.UsersDAO;
 import java.io.File;
 import java.io.IOException;
@@ -43,6 +44,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import pojos.Conferences;
 import pojos.RegisteredUsers;
+import pojos.RegisteredUsersId;
 import pojos.Users;
 
 /**
@@ -205,15 +207,29 @@ public class DetailConferenceSceneController implements Initializable {
             return;
         }
         
-        //đăng nhập để đăng ký tham gia hội nghị
+        //hiển thị dialog đăng nhập và lấy username, password mà người dùng
+        //đã nhập trong dialog
         Optional<Pair<String, String>> result = showLoginDialog();
+        
+        //người dùng thoát dialog và ko lấy được chuỗi
+        if(result.isPresent() == false){
+            return;
+        }
+        
+        //người dùng đã yêu cầu login
         String username = result.get().getKey();
         String password = result.get().getValue();
 
         //kiểm tra tài khoản và mật khẩu đăng nhập có hợp lệ
         boolean check = checkUserValid(username, password);
         if (check == true) {  //hợp lệ
-            showAlertDialog("Đăng nhập thành công");
+            //kiểm tra tài khoản có bị khóa truy cập
+            if(loginUser.getIsBlocked() == true){   //blocked
+                showAlertDialog("Tài khoản đã bị chặn truy cập");
+                loginUser = null;
+            } else {
+                showAlertDialog("Đăng nhập thành công");
+            }
         } else {
             showAlertDialog("Tài khoản và mật khẩu không hợp lệ");
         }
@@ -224,13 +240,19 @@ public class DetailConferenceSceneController implements Initializable {
         showRegisterDialog();
     }
     
+    /**
+     * Nhấp vào JoinConferenceButton cho phép người dùng tham gia hôi nghị nêu
+     * đã đăng nhập, ngược lại thì yêu cầu đăng nhập
+     * 
+     * @param event 
+     */
     @FXML
     private void clickOnJoinConferenceButton(ActionEvent event) {
         //this.loginUser = UsersDAO.getByID(1);     //test
-        if (this.loginUser == null) {
+        if (this.loginUser == null) {   //user chưa đăng nhập
             showAlertDialog("Bạn cần đăng nhập tài khoản để đăng ký tham gia");
         }  
-        else if (checkUserRegisterConference() == true) { //kiểm tra người dùng đã tham gia hội nghị này chưa
+        else if (checkUserRegisteredSelectedConference() == true) { //kiểm tra người dùng đã tham gia hội nghị này chưa
             showAlertDialog("Bạn đã đăng ký tham gia hội nghị này");
         }     
         else if (checkConferenceTakesPlace() != -1) { //kiểm tra hội nghị đã diễn ra hay chưa
@@ -239,12 +261,30 @@ public class DetailConferenceSceneController implements Initializable {
         else if (checkConferenceHasEmptySeats() <= 0) {   //kiểm tra hội nghị còn chỗ trống
             showAlertDialog("Hội nghị không còn chỗ để đăng ký");
         }  
-        else { //user đã đăng nhập
+        else {
             //xử lý đăng ký cho user
-            showAlertDialog("Xử lý Đăng ký");
+            RegisteredUsers registeredUser = new RegisteredUsers();
+            registeredUser.setId(new RegisteredUsersId(loginUser.getUserId(), selectedConference.getConferenceId()));
+            registeredUser.setConferences(selectedConference);
+            registeredUser.setUsers(loginUser);
+            
+            boolean check = RegisteredUsersDAO.insert(registeredUser);
+            
+            //kiểm tra user đã được hệ thống đăng ký hay chưa
+            if(check == true){  //đăng ký thành công
+                showAlertDialog("Thành công");
+                this.loginUser = UsersDAO.getByID(loginUser.getUserId());   //cập nhật lại user
+            } else {    //đăng ký thất bại
+                showAlertDialog("Thất bại");
+            }
         }
     }
     
+    /**
+     * xuất hộp thoại login
+     * 
+     * @return 
+     */
     private Optional<Pair<String, String>> showLoginDialog() {
         // Tạo loginDialog
         Dialog<Pair<String, String>> loginDialog = new Dialog<>();
@@ -274,7 +314,7 @@ public class DetailConferenceSceneController implements Initializable {
         ButtonType buttonTypeOk = new ButtonType("Đăng nhập", ButtonData.OK_DONE);
         loginDialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
         
-        //
+        //sau khi nhập sẽ trả giá trị username và password
         loginDialog.setResultConverter(dialogButton -> {
             if (dialogButton == buttonTypeOk) {
                 return new Pair<>(usernameTextField.getText(), passwordTextField.getText());
@@ -309,11 +349,13 @@ public class DetailConferenceSceneController implements Initializable {
      *
      * @return
      */
-    private boolean checkUserRegisterConference() {
+    private boolean checkUserRegisteredSelectedConference() {
         if (this.loginUser != null) {
             HashSet<RegisteredUsers> set = new HashSet<>(loginUser.getRegisteredUserses());
             for (RegisteredUsers registeredUsers : set) {
-                if (registeredUsers.getConferences().getConferenceId() == (int) selectedConference.getConferenceId()) {
+                //System.out.println(registeredUsers.getId().getUserId() + "---" + registeredUsers.getId().getConferenceId());
+                
+                if (registeredUsers.getId().getConferenceId() == selectedConference.getConferenceId()) {
                     return true;
                 }
             }

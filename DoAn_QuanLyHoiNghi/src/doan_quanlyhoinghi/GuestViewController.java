@@ -6,6 +6,7 @@
 package doan_quanlyhoinghi;
 
 import DAO.ConferencesDAO;
+import DAO.UsersDAO;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -27,6 +29,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import pojos.Admins;
 import pojos.Conferences;
 import pojos.Users;
 
@@ -47,17 +50,36 @@ public class GuestViewController implements Initializable {
     @FXML
     private Button watchingDetailButton;
     @FXML
-    private MenuItem LoginMenuItem;
-    @FXML
     private MenuItem helpMenuItem;
-
+    @FXML
+    private Menu adminMenu;
+    @FXML
+    private MenuItem loginAdminMenuItem;
+    @FXML
+    private MenuItem logoutAdminMenuItem;
+    @FXML
+    private MenuItem viewProfileAdminMenuItem;
+    @FXML
+    private MenuItem conferencesManageMenuItem;
+    @FXML
+    private MenuItem userManageMenuItem;
+    @FXML
+    private Menu userMenu;
+    @FXML
+    private MenuItem logoutUserMenuItem;
+    @FXML
+    private MenuItem viewProfileUserMenuItem;
+    @FXML
+    private MenuItem conferencesStatisticMenuItem;
+    
     private ObservableList<Conferences> observableList;
     Users loginUser;
+    Admins loginAdmin;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadConferencesIntoTableView();     //tải thông tin hội nghị vào table view
-        this.watchingDetailButton.setDisable(true);     //không cho người dùng xem chi tiết cho đến khi chọn 1 hội nghị
+        this.watchingDetailButton.setDisable(true);     //không cho người dùng xem chi tiết cho đến khi chọn 1 hội nghị     
     }
 
     /**
@@ -67,6 +89,13 @@ public class GuestViewController implements Initializable {
      */
     public void receiveLoginUserInfor(Users loginUser) {
         this.loginUser = loginUser;
+        
+        if(this.loginUser != null){
+            loginAdminMenuItem.setDisable(true);
+            logoutUserMenuItem.setDisable(false);
+            viewProfileUserMenuItem.setDisable(false);
+            conferencesStatisticMenuItem.setDisable(false);
+        }
     }
 
     /**
@@ -133,7 +162,7 @@ public class GuestViewController implements Initializable {
      */
     @FXML
     private void clickOnHelpDialog() {
-        String imageLink = "\\doan_quanlyhoinghi\\conferenceImage\\fit@hcmus.jpg";
+        String imageLink = "\\doan_quanlyhoinghi\\conferenceImage\\fit_hcmus.jpg";
         Image image = new Image(imageLink);
         ImageView imageView = new ImageView(image);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -148,4 +177,42 @@ public class GuestViewController implements Initializable {
         alert.showAndWait();
     }
 
+    @FXML
+    private void clickOnLogoutUserMenuItem(){
+        System.out.println("clickOnLogoutUserMenuItem");
+        if(this.loginUser != null){
+            loginUser = null;       
+            loginAdminMenuItem.setDisable(false);
+            logoutUserMenuItem.setDisable(true);
+            viewProfileUserMenuItem.setDisable(true);
+            conferencesStatisticMenuItem.setDisable(true);
+            showAlertDialog("Đã đăng xuất tài khoản");
+        }
+    }
+    
+    @FXML
+    private void clickOnViewProfileUserMenuItem(){
+        System.out.println("clickOnViewProfileUserMenuItem");
+    }
+    
+    @FXML
+    private void clickOnConferencesStatisticMenuItem(){
+        System.out.println("clickOnConferencesStatisticMenuItem");
+    }
+    
+    
+    
+    /**
+     * hiển thị hộp thoại thông báo với tin nhắn message
+     *
+     * @param message
+     */
+    private void showAlertDialog(String message) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+    
+    
 }
