@@ -40,27 +40,28 @@ VALUES ('1999 UEFA Champions League Final','Match between MU vs Bayer'
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id, registered_attendees)
 VALUES ('G7 summit','G7 = Group of Seven'
 ,'Core G7 members :Canada, France, Germany, Italy, Japan, UK, US'
-,'image2.jpg','2021-02-02',2,3);
+,'image2.jpg','4000-02-02',2,3);
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id, registered_attendees)
 VALUES ('The Last Dance Tour','The sixth concert tour of Big Bang'
 ,'The Last Dance Tour was Big Bang''s sixth concert tour in Japan'
-,'image3.jpg','2020-09-01',1,5);
+,'image3.jpg','4000-09-01',1,5);
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id)
 VALUES ('The 2018 FIFA World Cup','The 2018 FIFA World Cup in Russia'
 ,'An international football tournament contested by men''s national teams'
-,'image4.jpg','2020-09-09',4);
+,'image4.jpg','4000-09-09',4);
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id)
 VALUES ('The 2003 Southeast Asian Games','It was held in Vietnam'
 ,'The 22nd Southeast Asian Games, It was held in Vietnam'
-,'image5.jpg','2020-10-10',5);
+,'image5.jpg','4000-10-10',5);
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id)
 VALUES ('The 2010 FIFA World Cup','Egypt and Morocco host the finals'
 ,'It was the 19th FIFA World Cup, Egypt and Morocco host the finals'
-,'image6.jpg','2020-11-11',8);
+,'image6.jpg','4000-11-11',8);
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id)
 VALUES ('The 2020 Summer Olympics','officially the Games of the XXXII Olympiad'
 ,'the Games were rescheduled for 2021 as a result of the COVID-19 pandemic'
-,'image7.jpg','2020-12-12',6);
+,'image7.jpg','4000-12-12',6);
+,'image7.jpg','4000-12-12',6);
 
 CREATE TABLE admins (
 	admin_id INT(11) NOT NULL AUTO_INCREMENT,
