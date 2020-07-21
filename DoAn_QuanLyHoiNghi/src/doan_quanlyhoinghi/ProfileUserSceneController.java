@@ -36,7 +36,7 @@ public class ProfileUserSceneController implements Initializable {
     @FXML
     private Label usernameLabel;
     
-    Users loginUser;
+    private Users loginUser;
     
 
     /**
@@ -44,16 +44,18 @@ public class ProfileUserSceneController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //loadUserInfor();
+        
     }
 
     /**
-     * Nhận thông tin LoginUser
+     * Nhận thông tin LoginUser và load thong tin user
      *
      * @param loginUser
      */
     public void receiveLoginUserInfor(Users loginUser) {
         this.loginUser = UsersDAO.getByID(loginUser.getUserId());
+        
+        //load thông tin user
         loadUserInfor();
     }
     
@@ -76,12 +78,18 @@ public class ProfileUserSceneController implements Initializable {
             //cập nhật
             loginUser.setFullName(fullNameTextField.getText());
             loginUser.setEmail(emailTextField.getText());
-            if (passwordTextField.getText() != null) {  //cập nhật mật khẩu mới
+            
+            if (passwordTextField.getText().compareTo("") != 0) {  //cập nhật mật khẩu mới
                 loginUser.setPass(MD5Library.MD5(passwordTextField.getText()));
-            }
+            } else {
+                passwordTextField.setText(loginUser.getPass());
+            } 
+            
             boolean check = UsersDAO.update(loginUser);
             
             if (check == true) {
+                passwordTextField.setText("***********");
+                
                 AlertDialog.showAlertDialog("Cập nhật thành công");
                 Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 window.close();

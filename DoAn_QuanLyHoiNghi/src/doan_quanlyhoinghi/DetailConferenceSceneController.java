@@ -272,10 +272,10 @@ public class DetailConferenceSceneController implements Initializable {
             
             //kiểm tra user đã được hệ thống đăng ký hay chưa
             if(check == true){  //đăng ký thành công
-                AlertDialog.showAlertDialog("Thành công");
+                AlertDialog.showAlertDialog("Đăng ký thành công. Vui lòng chờ admin duyệt");
                 this.loginUser = UsersDAO.getByID(loginUser.getUserId());   //cập nhật lại user
             } else {    //đăng ký thất bại
-                AlertDialog.showAlertDialog("Thất bại");
+                AlertDialog.showAlertDialog("Đăng ký thất bại");
             }
         }
     }
@@ -349,4 +349,13 @@ public class DetailConferenceSceneController implements Initializable {
         return flag;
     }
 
+    /**
+     * disable các button, ko cần thao tác, chỉ cần xem chi tiết hội nghị
+     */
+    public void disableButton(){
+        this.registerUserButton.setVisible(false);
+        this.joinConferenceButton.setVisible(false);
+        this.loginButton.setVisible(false);
+        this.backGuestSceneButton.setVisible(false);
+    }
 }

@@ -68,8 +68,8 @@ public class GuestViewController implements Initializable {
     private MenuItem conferencesStatisticMenuItem;
     
     private ObservableList<Conferences> observableList;
-    Users loginUser;
-    Admins loginAdmin;
+    private Users loginUser;
+    private Admins loginAdmin;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -219,12 +219,25 @@ public class GuestViewController implements Initializable {
     }
     
     @FXML
-    private void clickOnConferencesStatisticMenuItem(){
-        System.out.println("clickOnConferencesStatisticMenuItem");
-        
+    private void clickOnConferencesStatisticMenuItem(ActionEvent event) throws IOException{
         if(this.loginUser != null){
-            
-            
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("ConferencesStatisticScene.fxml"));   //ConferencesStatisticScene
+
+            //tạo scene
+            Parent parent = loader.load();
+            Scene scene = new Scene(parent);
+
+            //gửi thông tin loginUser nếu đã đăng nhập sang ConferencesStatisticScene
+            ConferencesStatisticSceneController controller = loader.getController();
+            controller.receiveLoginUserInfor(this.loginUser);
+
+            //tạo stage, chuyển ConferencesStatisticScene
+            Stage window = new Stage();
+            window.setScene(scene);
+            window.setResizable(false);
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.showAndWait();   
         }
     }
     

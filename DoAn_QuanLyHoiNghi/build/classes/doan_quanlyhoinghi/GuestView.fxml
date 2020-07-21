@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="581.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doan_quanlyhoinghi.GuestViewController">
+<AnchorPane id="AnchorPane" prefHeight="580.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doan_quanlyhoinghi.GuestViewController">
    <children>
-      <Label layoutX="168.0" layoutY="38.0" prefHeight="72.0" prefWidth="615.0" text="Chương trình quản lý tổ chức Hội nghị" textAlignment="JUSTIFY">
+      <Label layoutX="143.0" layoutY="44.0" prefHeight="72.0" prefWidth="667.0" text="Chương trình quản lý tổ chức Hội nghị" textAlignment="JUSTIFY">
          <font>
-            <Font size="36.0" />
+            <Font name="System Bold" size="36.0" />
          </font>
       </Label>
       <TableView fx:id="conferenceTable" layoutX="57.0" layoutY="141.0" onMouseClicked="#clickOnTableView" prefHeight="361.0" prefWidth="838.0">

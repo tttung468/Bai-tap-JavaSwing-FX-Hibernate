@@ -50,7 +50,7 @@ public class RegisteredUsers implements java.io.Serializable {
         this.users = users;
     }
 
-    public boolean isIsAccepted() {
+    public boolean getIsAccepted() {
         return this.isAccepted;
     }
     
@@ -58,7 +58,7 @@ public class RegisteredUsers implements java.io.Serializable {
         this.isAccepted = isAccepted;
     }
 
-    public boolean isIsDeleted() {
+    public boolean getIsDeleted() {
         return this.isDeleted;
     }
     

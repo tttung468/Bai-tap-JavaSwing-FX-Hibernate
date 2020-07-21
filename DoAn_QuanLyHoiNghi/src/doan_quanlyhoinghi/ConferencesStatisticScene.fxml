@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="480.0" prefWidth="788.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="doan_quanlyhoinghi.ConferencesStatisticSceneController">
+   <children>
+      <Label layoutX="106.0" layoutY="14.0" prefHeight="72.0" prefWidth="575.0" text="Các hội nghị được duyệt tham dự">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <TableView fx:id="conferenceStatisticTable" layoutX="18.0" layoutY="86.0" onMouseClicked="#clickOnTableView" prefHeight="316.0" prefWidth="752.0">
+        <columns>
+          <TableColumn fx:id="IDCol" prefWidth="101.60000610351562" style="-fx-alignment: CENTER;" text="ID" />
+          <TableColumn fx:id="conferenceNameCol" prefWidth="306.3999557495117" text="Tên hội nghị" />
+            <TableColumn fx:id="briefDescriptionCol" minWidth="0.0" prefWidth="344.0000305175781" text="Giới thiệu ngắn gọn" />
+        </columns>
+      </TableView>
+      <Button fx:id="watchingDetailButton" layoutX="288.0" layoutY="414.0" mnemonicParsing="false" onAction="#clickOnWatchingDetailButton" prefHeight="51.0" prefWidth="210.0" text="Xem chi tiết hội nghị">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
