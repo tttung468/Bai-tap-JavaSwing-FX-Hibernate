@@ -203,13 +203,13 @@ public class DetailConferenceSceneController implements Initializable {
     @FXML
     private void clickOnLoginButton(ActionEvent event) {
         if(this.loginUser != null){
-            showAlertDialog("Bạn đã đăng nhập");
+            AlertDialog.showAlertDialog("Bạn đã đăng nhập");
             return;
         }
         
         //hiển thị dialog đăng nhập và lấy username, password mà người dùng
         //đã nhập trong dialog
-        Optional<Pair<String, String>> result = showLoginDialog();
+        Optional<Pair<String, String>> result = LoginDialog.showLoginDialog();   
         
         //người dùng thoát dialog và ko lấy được chuỗi
         if(result.isPresent() == false){
@@ -225,13 +225,13 @@ public class DetailConferenceSceneController implements Initializable {
         if (check == true) {  //hợp lệ
             //kiểm tra tài khoản có bị khóa truy cập
             if(loginUser.getIsBlocked() == true){   //blocked
-                showAlertDialog("Tài khoản đã bị chặn truy cập");
+                AlertDialog.showAlertDialog("Tài khoản đã bị chặn truy cập");
                 loginUser = null;
             } else {
-                showAlertDialog("Đăng nhập thành công");
+                AlertDialog.showAlertDialog("Đăng nhập thành công");
             }
         } else {
-            showAlertDialog("Tài khoản và mật khẩu không hợp lệ");
+            AlertDialog.showAlertDialog("Tài khoản và mật khẩu không hợp lệ");
         }
     }
 
@@ -250,16 +250,16 @@ public class DetailConferenceSceneController implements Initializable {
     private void clickOnJoinConferenceButton(ActionEvent event) {
         //this.loginUser = UsersDAO.getByID(1);     //test
         if (this.loginUser == null) {   //user chưa đăng nhập
-            showAlertDialog("Bạn cần đăng nhập tài khoản để đăng ký tham gia");
+            AlertDialog.showAlertDialog("Bạn cần đăng nhập tài khoản để đăng ký tham gia");
         }  
         else if (checkUserRegisteredSelectedConference() == true) { //kiểm tra người dùng đã tham gia hội nghị này chưa
-            showAlertDialog("Bạn đã đăng ký tham gia hội nghị này");
+            AlertDialog.showAlertDialog("Bạn đã đăng ký tham gia hội nghị này");
         }     
         else if (checkConferenceTakesPlace() != -1) { //kiểm tra hội nghị đã diễn ra hay chưa
-            showAlertDialog("Hội nghị đã diễn ra, không thể đăng ký");
+            AlertDialog.showAlertDialog("Hội nghị đã diễn ra, không thể đăng ký");
         }     
         else if (checkConferenceHasEmptySeats() <= 0) {   //kiểm tra hội nghị còn chỗ trống
-            showAlertDialog("Hội nghị không còn chỗ để đăng ký");
+            AlertDialog.showAlertDialog("Hội nghị không còn chỗ để đăng ký");
         }  
         else {
             //xử lý đăng ký cho user
@@ -272,76 +272,18 @@ public class DetailConferenceSceneController implements Initializable {
             
             //kiểm tra user đã được hệ thống đăng ký hay chưa
             if(check == true){  //đăng ký thành công
-                showAlertDialog("Thành công");
+                AlertDialog.showAlertDialog("Thành công");
                 this.loginUser = UsersDAO.getByID(loginUser.getUserId());   //cập nhật lại user
             } else {    //đăng ký thất bại
-                showAlertDialog("Thất bại");
+                AlertDialog.showAlertDialog("Thất bại");
             }
         }
     }
-    
-    /**
-     * xuất hộp thoại login
-     * 
-     * @return 
-     */
-    private Optional<Pair<String, String>> showLoginDialog() {
-        // Tạo loginDialog
-        Dialog<Pair<String, String>> loginDialog = new Dialog<>();
-        loginDialog.setTitle("Hộp thoại đăng nhập");
-        loginDialog.setResizable(true);
-        loginDialog.setGraphic(new ImageView(new Image("\\doan_quanlyhoinghi\\conferenceImage\\login.jpg")));
-        
-        //label, textField
-        Label usernameLabel = new Label("Tên tài khoản: ");
-        Label passwordLabel = new Label("Mật khẩu: ");
-        TextField usernameTextField = new TextField();
-        TextField passwordTextField = new TextField();
-        
-        //tạo gridPane và add labels, textFields
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 35, 20, 35));
-        grid.add(usernameLabel, 1, 1); // col=1, row=1
-        grid.add(usernameTextField, 2, 1);
-        grid.add(passwordLabel, 1, 2); // col=1, row=2
-        grid.add(passwordTextField, 2, 2);
-        loginDialog.getDialogPane().setContent(grid);
-        
-        //add button đăng nhập
-        ButtonType buttonTypeOk = new ButtonType("Đăng nhập", ButtonData.OK_DONE);
-        loginDialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
-        
-        //sau khi nhập sẽ trả giá trị username và password
-        loginDialog.setResultConverter(dialogButton -> {
-            if (dialogButton == buttonTypeOk) {
-                return new Pair<>(usernameTextField.getText(), passwordTextField.getText());
-            }
-            return null;
-        });
-
-        // Show loginDialog
-        Optional<Pair<String, String>> result = loginDialog.showAndWait();
-        return result;
-    }
-
+   
     private void showRegisterDialog() {
-        showAlertDialog("Xử lý Tạo tài khoản mới");
+        AlertDialog.showAlertDialog("Xử lý Tạo tài khoản mới");
     }
     
-    /**
-     * hiển thị hộp thoại thông báo với tin nhắn message
-     *
-     * @param message
-     */
-    private void showAlertDialog(String message) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 
     /**
      * kiểm tra loginUser đã tham gia selectedConference hay chưa, trả về true

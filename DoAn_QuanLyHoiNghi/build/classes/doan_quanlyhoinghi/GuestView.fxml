@@ -35,9 +35,6 @@
             <items>
               <MenuItem fx:id="loginAdminMenuItem" mnemonicParsing="false" text="Đăng nhập" />
                   <MenuItem fx:id="logoutAdminMenuItem" disable="true" mnemonicParsing="false" text="Đăng xuất" />
-                  <MenuItem fx:id="viewProfileAdminMenuItem" disable="true" mnemonicParsing="false" text="Xem profile" />
-                  <MenuItem fx:id="conferencesManageMenuItem" disable="true" mnemonicParsing="false" text="Quản lý hội nghị" />
-                  <MenuItem fx:id="userManageMenuItem" disable="true" mnemonicParsing="false" text="Quản lý User" />
             </items>
           </Menu>
             <Menu fx:id="userMenu" mnemonicParsing="false" text="User">

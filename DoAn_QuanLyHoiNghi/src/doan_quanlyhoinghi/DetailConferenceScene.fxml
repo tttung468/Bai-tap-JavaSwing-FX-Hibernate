@@ -11,7 +11,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="570.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doan_quanlyhoinghi.DetailConferenceSceneController">
    <children>
-      <Button fx:id="backGuestSceneButton" mnemonicParsing="false" onAction="#clickOnbackGuestSceneButton" prefHeight="39.0" prefWidth="204.0" text="Quay lại danh sách hội nghị">
+      <Button fx:id="backGuestSceneButton" mnemonicParsing="false" onAction="#clickOnbackGuestSceneButton" prefHeight="39.0" prefWidth="204.0" text="Quay về màn hình chính">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

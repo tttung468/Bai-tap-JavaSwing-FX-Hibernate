@@ -28,6 +28,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pojos.Admins;
 import pojos.Conferences;
@@ -58,12 +59,6 @@ public class GuestViewController implements Initializable {
     @FXML
     private MenuItem logoutAdminMenuItem;
     @FXML
-    private MenuItem viewProfileAdminMenuItem;
-    @FXML
-    private MenuItem conferencesManageMenuItem;
-    @FXML
-    private MenuItem userManageMenuItem;
-    @FXML
     private Menu userMenu;
     @FXML
     private MenuItem logoutUserMenuItem;
@@ -79,7 +74,14 @@ public class GuestViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadConferencesIntoTableView();     //tải thông tin hội nghị vào table view
-        this.watchingDetailButton.setDisable(true);     //không cho người dùng xem chi tiết cho đến khi chọn 1 hội nghị     
+        this.watchingDetailButton.setDisable(true);     //không cho người dùng xem chi tiết cho đến khi chọn 1 hội nghị
+        
+        //test user login
+        loginUser = UsersDAO.getByID(1);
+        loginAdminMenuItem.setDisable(true);
+        logoutUserMenuItem.setDisable(false);
+        viewProfileUserMenuItem.setDisable(false);
+        conferencesStatisticMenuItem.setDisable(false);
     }
 
     /**
@@ -177,42 +179,58 @@ public class GuestViewController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * logout user đang đăng nhập
+     */
     @FXML
     private void clickOnLogoutUserMenuItem(){
-        System.out.println("clickOnLogoutUserMenuItem");
         if(this.loginUser != null){
             loginUser = null;       
             loginAdminMenuItem.setDisable(false);
             logoutUserMenuItem.setDisable(true);
             viewProfileUserMenuItem.setDisable(true);
             conferencesStatisticMenuItem.setDisable(true);
-            showAlertDialog("Đã đăng xuất tài khoản");
+            AlertDialog.showAlertDialog("Đã đăng xuất tài khoản");
         }
     }
     
     @FXML
-    private void clickOnViewProfileUserMenuItem(){
-        System.out.println("clickOnViewProfileUserMenuItem");
+    private void clickOnViewProfileUserMenuItem(ActionEvent event) throws IOException{
+        if(this.loginUser != null){
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("ProfileUserScene.fxml"));   //ProfileUserScene
+
+            //tạo scene
+            Parent profileUserParent = loader.load();
+            Scene profileUserScene = new Scene(profileUserParent);
+
+            //gửi thông tin loginUser nếu đã đăng nhập sang ProfileUserScene
+            ProfileUserSceneController controller = loader.getController();
+            controller.receiveLoginUserInfor(this.loginUser);
+
+            //tạo stage, chuyển ProfileUserScene
+            //Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage window = new Stage();
+            window.setScene(profileUserScene);
+            window.setResizable(false);
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.showAndWait();
+        }
     }
     
     @FXML
     private void clickOnConferencesStatisticMenuItem(){
         System.out.println("clickOnConferencesStatisticMenuItem");
+        
+        if(this.loginUser != null){
+            
+            
+        }
     }
     
     
     
-    /**
-     * hiển thị hộp thoại thông báo với tin nhắn message
-     *
-     * @param message
-     */
-    private void showAlertDialog(String message) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+
     
     
 }
