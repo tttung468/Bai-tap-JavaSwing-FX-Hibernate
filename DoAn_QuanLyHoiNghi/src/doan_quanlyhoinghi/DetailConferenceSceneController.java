@@ -242,7 +242,6 @@ public class DetailConferenceSceneController implements Initializable {
      */
     @FXML
     private void clickOnRegisterUserButton(ActionEvent event) {
-        System.out.println("RegisterUserButton");
         if(loginUser == null){
             //hiển thị dialog đăng nhập và lấy username, password mà người dùng
             //đã nhập trong dialog

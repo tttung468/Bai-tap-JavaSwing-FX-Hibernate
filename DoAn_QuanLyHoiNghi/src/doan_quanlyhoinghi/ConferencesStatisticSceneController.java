@@ -13,6 +13,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,6 +27,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -58,10 +60,13 @@ public class ConferencesStatisticSceneController implements Initializable {
     private Button watchingDetailButton;
     @FXML
     private TextField filterTextField;
+    @FXML
+    private Button filterButton;
+    @FXML
+    private Button cancelButton;
     
     private ObservableList<Conferences> observableList;
     private Users loginUser;
-    
     
     
     /**
@@ -215,5 +220,50 @@ public class ConferencesStatisticSceneController implements Initializable {
         }
         
     } 
+
+    @FXML
+    private void clickOnCancelButton(ActionEvent event) {
+        Conferences conference = conferenceStatisticTable.getSelectionModel().getSelectedItem();
+
+        if (conference != null) {
+            String headerText = "Bạn có chắc chắn muốn hủy tham gia hội nghị này";
+            String message = "Hội nghị: " + conference.getConferenceName();
+
+            //mở hộp thoại xác nhận có muốn hủy tham dự
+            Optional<ButtonType> option = ConfirmationDialog.showConfirmationDialog(headerText, message);
+
+            //user đồng ý hủy
+            if (checkConferenceTakesPlace(conference) != -1) { //kiểm tra hội nghị đã diễn ra hay chưa
+                AlertDialog.showAlertDialog("Hội nghị đã diễn ra, không thể hủy tham gia");
+                return;
+            }     
+            
+            //hủy tham gia hội nghị
+            if (option.get() == ButtonType.OK) {
+                RegisteredUsers registeredUser = RegisteredUsersDAO.getByID(
+                        new RegisteredUsersId(loginUser.getUserId(), conference.getConferenceId()));
+                
+                if(registeredUser != null){
+                    RegisteredUsersDAO.delete(registeredUser);
+                    AlertDialog.showAlertDialog("Hủy tham gia thành công");
+                } else {
+                    AlertDialog.showAlertDialog("Hội nghị này đã hủy tham gia");
+                }
+            }
+            
+        } else {
+            AlertDialog.showAlertDialog("Bạn cần chọn 1 hội nghị để hủy tham gia");
+        }
+    }
     
+    /**
+     * kiểm trta selectedConference đã diễn ra hay chưa, trả về -1 nếu chưa diễn
+     * ra, 0 và 1 nếu đã diễn ra
+     *
+     * @return
+     */
+    private int checkConferenceTakesPlace(Conferences selectedConference) {
+        Date date = new java.util.Date();
+        return date.compareTo(selectedConference.getOrganizedTime());
+    }
 }

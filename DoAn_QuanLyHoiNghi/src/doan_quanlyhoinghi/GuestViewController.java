@@ -9,6 +9,7 @@ import DAO.ConferencesDAO;
 import DAO.UsersDAO;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +22,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
@@ -77,11 +79,11 @@ public class GuestViewController implements Initializable {
         this.watchingDetailButton.setDisable(true);     //không cho người dùng xem chi tiết cho đến khi chọn 1 hội nghị
         
         //test user login
-//        loginUser = UsersDAO.getByID(1);
-//        loginAdminMenuItem.setDisable(true);
-//        logoutUserMenuItem.setDisable(false);
-//        viewProfileUserMenuItem.setDisable(false);
-//        conferencesStatisticMenuItem.setDisable(false);
+        loginUser = UsersDAO.getByID(1);
+        loginAdminMenuItem.setDisable(true);
+        logoutUserMenuItem.setDisable(false);
+        viewProfileUserMenuItem.setDisable(false);
+        conferencesStatisticMenuItem.setDisable(false);
     }
 
     /**
@@ -90,7 +92,7 @@ public class GuestViewController implements Initializable {
      * @param loginUser
      */
     public void receiveLoginUserInfor(Users loginUser) {
-        this.loginUser = loginUser;
+        this.loginUser = UsersDAO.getByID(loginUser.getUserId());
         
         if(this.loginUser != null){
             loginAdminMenuItem.setDisable(true);
@@ -184,9 +186,16 @@ public class GuestViewController implements Initializable {
      * 
      */
     @FXML
-    private void clickOnLogoutUserMenuItem(){
-        if(this.loginUser != null){
-            loginUser = null;       
+    private void clickOnLogoutUserMenuItem() {
+        String headerText = "Bạn có chắc chắn muốn đăng xuất";
+        String message = "username: " + loginUser.getUsername();
+        
+        //mở hộp thoại xác nhận có muốn đăng xuất
+        Optional<ButtonType> option = ConfirmationDialog.showConfirmationDialog(headerText, message);
+
+        //user đồng ý đăng xuất
+        if (option.get() == ButtonType.OK) {
+            loginUser = null;
             loginAdminMenuItem.setDisable(false);
             logoutUserMenuItem.setDisable(true);
             viewProfileUserMenuItem.setDisable(true);

@@ -7,12 +7,14 @@ package doan_quanlyhoinghi;
 
 import DAO.UsersDAO;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -76,9 +78,18 @@ public class ProfileUserSceneController implements Initializable {
      */
     @FXML
     private void clickOnUpdateInforButton(ActionEvent event){
-        //test
-        //System.out.println(fullNameTextField.getText() + "---" + passwordTextField.getText() + "---" + emailTextField.getText());
+        String headerText = "Bạn có chắc chắn muốn cập nhật";
+        String message = "username: " + loginUser.getUsername();
         
+        //mở hộp thoại xác nhận có muốn cập nhật
+        Optional<ButtonType> option = ConfirmationDialog.showConfirmationDialog(headerText, message);
+
+        //user không muốn cập nhật
+        if (option.get() != ButtonType.OK) {
+            return;
+        }
+        
+        //user muốn cập nhật
         if(fullNameTextField.getText().compareTo("") != 0 && emailTextField.getText().compareTo("") != 0){
             //cập nhật
             loginUser.setFullName(fullNameTextField.getText());
