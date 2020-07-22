@@ -77,11 +77,11 @@ public class GuestViewController implements Initializable {
         this.watchingDetailButton.setDisable(true);     //không cho người dùng xem chi tiết cho đến khi chọn 1 hội nghị
         
         //test user login
-        loginUser = UsersDAO.getByID(1);
-        loginAdminMenuItem.setDisable(true);
-        logoutUserMenuItem.setDisable(false);
-        viewProfileUserMenuItem.setDisable(false);
-        conferencesStatisticMenuItem.setDisable(false);
+//        loginUser = UsersDAO.getByID(1);
+//        loginAdminMenuItem.setDisable(true);
+//        logoutUserMenuItem.setDisable(false);
+//        viewProfileUserMenuItem.setDisable(false);
+//        conferencesStatisticMenuItem.setDisable(false);
     }
 
     /**

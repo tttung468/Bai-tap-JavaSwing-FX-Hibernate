@@ -197,7 +197,7 @@ public class DetailConferenceSceneController implements Initializable {
     }
 
     /**
-     * Nhấp vào loginButton thì cho phép đăng ký tham dự hội nghị
+     * Nhấp vào loginButton thì mở loginDialog để đăng nhập
      * 
      * @param event 
      */
@@ -236,9 +236,46 @@ public class DetailConferenceSceneController implements Initializable {
         }
     }
 
+    /**
+     * 
+     * @param event 
+     */
     @FXML
     private void clickOnRegisterUserButton(ActionEvent event) {
-        showRegisterDialog();
+        System.out.println("RegisterUserButton");
+        if(loginUser == null){
+            //hiển thị dialog đăng nhập và lấy username, password mà người dùng
+            //đã nhập trong dialog
+            Optional<Users> result = RegisterDialog.showLoginDialog();
+            
+             //người dùng thoát dialog và ko lấy được chuỗi
+            if (result.isPresent() == false) {
+                return;
+            }
+            
+            //người dùng đã yêu cầu login
+            Users user = result.get();
+            System.out.println(user.getFullName() + "," + user.getUsername() + "," + user.getPass() + "," + user.getEmail());
+            
+             //kiểm tra người dùng có nhập đủ thông tin
+            if(user.getFullName().compareTo("") != 0 && user.getUsername().compareTo("") != 0 
+                    && user.getPass().compareTo("") != 0 && user.getEmail().compareTo("") != 0){
+                
+                user.setPass(MD5Library.MD5(user.getPass())); //mã hóa mật khẩu
+                boolean check = UsersDAO.insert(user);  //insert 
+                
+                if(check == true){
+                    AlertDialog.showAlertDialog("Đăng ký thành công");
+                } else {
+                    AlertDialog.showAlertDialog("Đăng ký thất bại");
+                }
+            } else {
+                AlertDialog.showAlertDialog("Vui lòng nhập đủ thông tin để đăng ký");
+            }
+        
+        } else {
+            AlertDialog.showAlertDialog("Vui lòng đăng xuất tài khoản hiện tại");
+        }
     }
     
     /**
@@ -279,10 +316,6 @@ public class DetailConferenceSceneController implements Initializable {
                 AlertDialog.showAlertDialog("Đăng ký thất bại");
             }
         }
-    }
-   
-    private void showRegisterDialog() {
-        AlertDialog.showAlertDialog("Xử lý Tạo tài khoản mới");
     }
     
 

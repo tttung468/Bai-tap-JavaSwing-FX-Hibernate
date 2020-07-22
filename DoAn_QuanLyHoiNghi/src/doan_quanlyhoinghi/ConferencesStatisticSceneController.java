@@ -179,37 +179,36 @@ public class ConferencesStatisticSceneController implements Initializable {
     @FXML
     private void clickOnFilterButton(){
         if (observableList != null) {
-            // Wrap the ObservableList in a FilteredList (initially display all data).
+            // Khởi tạo FilteredList với ObservableList (ban đầu hiển thị tất cả dữ liệu).
             FilteredList<Conferences> filteredData = new FilteredList<>(observableList, b -> true);
 
-            // 2. Set the filter Predicate whenever the filter changes.
+            // 2. Set Predicate của filteredData bất cứ khi nào bộ lọc thay đổi
             filteredData.setPredicate(conference -> {
-                // If filter text is empty, display all persons.
-
+                // hiển thị tất cả hội nghị khi filterTextField trốn 
                 if (filterTextField.getText() == null || filterTextField.getText().isEmpty()) {
                     return true;
                 }
 
-                // Compare first name and last name of every person with filter text.
+                // So sánh name và id của từng hội nghị với filterTextField
                 String lowerCaseFilter = filterTextField.getText().toLowerCase();
 
                 if (conference.getConferenceName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                    return true; // Filter matches first name.
+                    return true; // tìm thấy ConferenceName
                 } else if (String.valueOf(conference.getOrganizedTime()).indexOf(lowerCaseFilter) != -1) {
-                    return true;
+                    return true; // tìm thấy conferenceID
                 } else {
-                    return false; // Does not match.
+                    return false; // không tìm thấy trường dữ liệu phù hợp
                 }
             });
 
-            // 3. Wrap the FilteredList in a SortedList. 
+            // Khởi tạo SortedList với FilteredList
             SortedList<Conferences> sortedData = new SortedList<>(filteredData);
 
-            // 4. Bind the SortedList comparator to the TableView comparator.
-            // 	  Otherwise, sorting the TableView would have no effect.
+            // Liên kết bộ so sánh SortedList với bộ so sánh TableView
+            // để việc sắp xếp TableView có hiệu lực
             sortedData.comparatorProperty().bind(conferenceStatisticTable.comparatorProperty());
 
-            // 5. Add sorted (and filtered) data to the table.
+            // Set tableView với danh sách đã được lọc
             conferenceStatisticTable.setItems(sortedData);
         } else {
             System.out.println("Danh sach rong");

@@ -28,8 +28,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Label layoutX="34.0" layoutY="123.0" prefHeight="26.0" prefWidth="118.0" text="Nhập để tìm kiếm :" />
-      <TextField fx:id="filterTextField" layoutX="171.0" layoutY="123.0" prefHeight="26.0" prefWidth="277.0" />
-      <Button fx:id="filterButton" layoutX="459.0" layoutY="124.0" mnemonicParsing="false" onAction="#clickOnFilterButton" text="Tìm kiếm" />
+      <TextField fx:id="filterTextField" layoutX="22.0" layoutY="122.0" prefHeight="26.0" prefWidth="305.0" promptText="Nhập để tìm kiếm" />
+      <Button fx:id="filterButton" layoutX="341.0" layoutY="122.0" mnemonicParsing="false" onAction="#clickOnFilterButton" text="Tìm kiếm" />
    </children>
 </AnchorPane>
