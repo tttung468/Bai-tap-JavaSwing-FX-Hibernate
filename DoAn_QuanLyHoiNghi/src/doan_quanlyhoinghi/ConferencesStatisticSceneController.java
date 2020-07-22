@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +28,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -49,18 +52,27 @@ public class ConferencesStatisticSceneController implements Initializable {
     private TableColumn<Conferences, String> conferenceNameCol;
     @FXML
     private TableColumn<Conferences, String> briefDescriptionCol;
+    @FXML
+    private TableColumn<Conferences, Date> timeCol;
+    @FXML
+    private Button watchingDetailButton;
+    @FXML
+    private TextField filterTextField;
     
     private ObservableList<Conferences> observableList;
     private Users loginUser;
-    @FXML
-    private Button watchingDetailButton;
+    
+    
     
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.watchingDetailButton.setDisable(true);     //không cho người dùng xem chi tiết cho đến khi chọn 1 hội nghị
+        
     }    
     
     /**
@@ -73,8 +85,14 @@ public class ConferencesStatisticSceneController implements Initializable {
         
         //load danh sách hội nghị
         loadInforIntoConferenceDetailTableView();
+        
     }
     
+    /**
+     * lấy các hội nghị mà user đã tham gia sau khi nhận thông tin user được gửi
+     * từ màn hình khác
+     * 
+     */
     private void loadInforIntoConferenceDetailTableView(){
         observableList = FXCollections.observableArrayList();
         observableList.addAll(getConferencesListUserJoin());    //lấy danh sách hội nghị
@@ -82,7 +100,8 @@ public class ConferencesStatisticSceneController implements Initializable {
         //set up column
         IDCol.setCellValueFactory(new PropertyValueFactory<>("conferenceId"));
         conferenceNameCol.setCellValueFactory(new PropertyValueFactory<>("conferenceName"));
-        briefDescriptionCol.setCellValueFactory(new PropertyValueFactory<>("briefDescription"));       
+        briefDescriptionCol.setCellValueFactory(new PropertyValueFactory<>("briefDescription"));    
+        timeCol.setCellValueFactory(new PropertyValueFactory<>("organizedTime"));
 
         //set up table view
         conferenceStatisticTable.setItems(this.observableList);
@@ -112,12 +131,19 @@ public class ConferencesStatisticSceneController implements Initializable {
     
     /**
      * cho người dùng xem chi tiết hội nghị khi nhấp vào tableView
+     * 
      */
     @FXML
     private void clickOnTableView() {
         this.watchingDetailButton.setDisable(false);
     }
 
+    /**
+     * mở màn hình xem chi tiết hội nghị khi click vào WatchingDetailButton
+     * 
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void clickOnWatchingDetailButton(ActionEvent event) throws IOException {
         Conferences conference = conferenceStatisticTable.getSelectionModel().getSelectedItem();
@@ -145,4 +171,50 @@ public class ConferencesStatisticSceneController implements Initializable {
             window.show();
         }
     }
+    
+    /**
+     * lọc hội nghị theo tên hoặc theo ngày khi click vào FilterButton
+     * 
+     */
+    @FXML
+    private void clickOnFilterButton(){
+        if (observableList != null) {
+            // Wrap the ObservableList in a FilteredList (initially display all data).
+            FilteredList<Conferences> filteredData = new FilteredList<>(observableList, b -> true);
+
+            // 2. Set the filter Predicate whenever the filter changes.
+            filteredData.setPredicate(conference -> {
+                // If filter text is empty, display all persons.
+
+                if (filterTextField.getText() == null || filterTextField.getText().isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = filterTextField.getText().toLowerCase();
+
+                if (conference.getConferenceName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches first name.
+                } else if (String.valueOf(conference.getOrganizedTime()).indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else {
+                    return false; // Does not match.
+                }
+            });
+
+            // 3. Wrap the FilteredList in a SortedList. 
+            SortedList<Conferences> sortedData = new SortedList<>(filteredData);
+
+            // 4. Bind the SortedList comparator to the TableView comparator.
+            // 	  Otherwise, sorting the TableView would have no effect.
+            sortedData.comparatorProperty().bind(conferenceStatisticTable.comparatorProperty());
+
+            // 5. Add sorted (and filtered) data to the table.
+            conferenceStatisticTable.setItems(sortedData);
+        } else {
+            System.out.println("Danh sach rong");
+        }
+        
+    } 
+    
 }

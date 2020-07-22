@@ -180,7 +180,8 @@ public class GuestViewController implements Initializable {
     }
 
     /**
-     * logout user đang đăng nhập
+     * logout user đang đăng nhập khi click vào LogoutUserMenuItem
+     * 
      */
     @FXML
     private void clickOnLogoutUserMenuItem(){
@@ -194,6 +195,13 @@ public class GuestViewController implements Initializable {
         }
     }
     
+    /**
+     * mở màn hình thông tin user và cho phép chỉnh sửa khi click vào 
+     * ViewProfileUserMenuItem
+     * 
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void clickOnViewProfileUserMenuItem(ActionEvent event) throws IOException{
         if(this.loginUser != null){
@@ -218,6 +226,11 @@ public class GuestViewController implements Initializable {
         }
     }
     
+    /**
+     * mở màn hình thống kê hội nghị khi click vào ConferencesStatisticMenuItem
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void clickOnConferencesStatisticMenuItem(ActionEvent event) throws IOException{
         if(this.loginUser != null){
@@ -235,7 +248,7 @@ public class GuestViewController implements Initializable {
             //tạo stage, chuyển ConferencesStatisticScene
             Stage window = new Stage();
             window.setScene(scene);
-            window.setResizable(false);
+            //window.setResizable(false);
             window.initModality(Modality.APPLICATION_MODAL);
             window.showAndWait();   
         }

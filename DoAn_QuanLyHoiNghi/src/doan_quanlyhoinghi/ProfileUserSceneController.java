@@ -69,6 +69,11 @@ public class ProfileUserSceneController implements Initializable {
         emailTextField.setText(loginUser.getEmail());
     }
     
+    /**
+     * cập nhật lại thông tin user khi click vào inforButton
+     * 
+     * @param event 
+     */
     @FXML
     private void clickOnUpdateInforButton(ActionEvent event){
         //test
@@ -89,7 +94,6 @@ public class ProfileUserSceneController implements Initializable {
             
             if (check == true) {
                 passwordTextField.setText("***********");
-                
                 AlertDialog.showAlertDialog("Cập nhật thành công");
                 Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 window.close();

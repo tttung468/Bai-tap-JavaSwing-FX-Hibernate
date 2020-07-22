@@ -198,7 +198,8 @@ public class DetailConferenceSceneController implements Initializable {
 
     /**
      * Nhấp vào loginButton thì cho phép đăng ký tham dự hội nghị
-     *
+     * 
+     * @param event 
      */
     @FXML
     private void clickOnLoginButton(ActionEvent event) {
@@ -351,6 +352,7 @@ public class DetailConferenceSceneController implements Initializable {
 
     /**
      * disable các button, ko cần thao tác, chỉ cần xem chi tiết hội nghị
+     * 
      */
     public void disableButton(){
         this.registerUserButton.setVisible(false);
