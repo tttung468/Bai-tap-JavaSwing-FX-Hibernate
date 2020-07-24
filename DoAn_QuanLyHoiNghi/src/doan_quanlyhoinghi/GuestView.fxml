@@ -29,14 +29,8 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <MenuBar layoutY="2.0" prefHeight="26.0" prefWidth="954.0">
+      <MenuBar layoutY="2.0" prefHeight="26.0" prefWidth="824.0">
         <menus>
-          <Menu fx:id="adminMenu" mnemonicParsing="false" text="Admin">
-            <items>
-              <MenuItem fx:id="loginAdminMenuItem" mnemonicParsing="false" text="Đăng nhập" />
-                  <MenuItem fx:id="logoutAdminMenuItem" disable="true" mnemonicParsing="false" text="Đăng xuất" />
-            </items>
-          </Menu>
             <Menu fx:id="userMenu" mnemonicParsing="false" text="User">
                <items>
                   <MenuItem fx:id="logoutUserMenuItem" disable="true" mnemonicParsing="false" onAction="#clickOnLogoutUserMenuItem" text="Đăng xuất" />
@@ -51,5 +45,6 @@
           </Menu>
         </menus>
       </MenuBar>
+      <Button fx:id="adminLoginButton" layoutX="824.0" layoutY="2.0" mnemonicParsing="false" onAction="#clickOnAdminLoginButton" prefHeight="26.0" prefWidth="126.0" text="Admin" />
    </children>
 </AnchorPane>

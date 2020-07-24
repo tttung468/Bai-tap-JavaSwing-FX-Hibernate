@@ -20,7 +20,7 @@
           <TableColumn fx:id="IDCol" prefWidth="79.19998550415039" style="-fx-alignment: CENTER;" text="ID" />
           <TableColumn fx:id="conferenceNameCol" prefWidth="313.59996032714844" text="Tên hội nghị" />
             <TableColumn fx:id="briefDescriptionCol" minWidth="0.0" prefWidth="297.60003662109375" text="Giới thiệu ngắn gọn" />
-            <TableColumn fx:id="timeCol" minWidth="0.0" prefWidth="168.79998779296875" style="-fx-alignment: CENTER;" text="Thời gian" />
+            <TableColumn fx:id="timeCol" minWidth="0.0" prefWidth="168.79998779296875" style="-fx-alignment: CENTER;" text="Thời gian diễn ra" />
         </columns>
       </TableView>
       <Button fx:id="watchingDetailButton" layoutX="341.0" layoutY="539.0" mnemonicParsing="false" onAction="#clickOnWatchingDetailButton" prefHeight="51.0" prefWidth="210.0" text="Xem chi tiết hội nghị">

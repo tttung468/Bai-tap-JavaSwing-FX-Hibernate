@@ -5,10 +5,12 @@
  */
 package doan_quanlyhoinghi;
 
+import DAO.AdminsDAO;
 import DAO.ConferencesDAO;
 import DAO.UsersDAO;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -32,6 +34,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import pojos.Admins;
 import pojos.Conferences;
 import pojos.Users;
@@ -55,35 +58,30 @@ public class GuestViewController implements Initializable {
     @FXML
     private MenuItem helpMenuItem;
     @FXML
-    private Menu adminMenu;
-    @FXML
-    private MenuItem loginAdminMenuItem;
-    @FXML
-    private MenuItem logoutAdminMenuItem;
-    @FXML
     private Menu userMenu;
-    @FXML
-    private MenuItem logoutUserMenuItem;
     @FXML
     private MenuItem viewProfileUserMenuItem;
     @FXML
     private MenuItem conferencesStatisticMenuItem;
+    @FXML
+    private MenuItem logoutUserMenuItem;
+    @FXML
+    private Button adminLoginButton;
     
     private ObservableList<Conferences> observableList;
     private Users loginUser;
     private Admins loginAdmin;
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadConferencesIntoTableView();     //tải thông tin hội nghị vào table view
         this.watchingDetailButton.setDisable(true);     //không cho người dùng xem chi tiết cho đến khi chọn 1 hội nghị
         
-        //test user login
-        loginUser = UsersDAO.getByID(1);
-        loginAdminMenuItem.setDisable(true);
-        logoutUserMenuItem.setDisable(false);
-        viewProfileUserMenuItem.setDisable(false);
-        conferencesStatisticMenuItem.setDisable(false);
+//        //test user login
+//        loginUser = UsersDAO.getByID(1);
+//        viewProfileUserMenuItem.setDisable(false);
+//        conferencesStatisticMenuItem.setDisable(false);
     }
 
     /**
@@ -92,13 +90,11 @@ public class GuestViewController implements Initializable {
      * @param loginUser
      */
     public void receiveLoginUserInfor(Users loginUser) {
-        this.loginUser = UsersDAO.getByID(loginUser.getUserId());
-        
-        if(this.loginUser != null){
-            loginAdminMenuItem.setDisable(true);
-            logoutUserMenuItem.setDisable(false);
+        if(loginUser != null){
+            this.loginUser = UsersDAO.getByID(loginUser.getUserId());
             viewProfileUserMenuItem.setDisable(false);
             conferencesStatisticMenuItem.setDisable(false);
+            logoutUserMenuItem.setDisable(false);
         }
     }
 
@@ -149,6 +145,7 @@ public class GuestViewController implements Initializable {
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(detailConferenceScene);
             window.setResizable(false);
+            window.setTitle("Màn hình xem chi tiết hội nghị");
             window.show();
         }
     }
@@ -196,10 +193,9 @@ public class GuestViewController implements Initializable {
         //user đồng ý đăng xuất
         if (option.get() == ButtonType.OK) {
             loginUser = null;
-            loginAdminMenuItem.setDisable(false);
-            logoutUserMenuItem.setDisable(true);
             viewProfileUserMenuItem.setDisable(true);
             conferencesStatisticMenuItem.setDisable(true);
+            logoutUserMenuItem.setDisable(true);
             AlertDialog.showAlertDialog("Đã đăng xuất tài khoản");
         }
     }
@@ -231,6 +227,7 @@ public class GuestViewController implements Initializable {
             window.setScene(profileUserScene);
             window.setResizable(false);
             window.initModality(Modality.APPLICATION_MODAL);
+            window.setTitle("Màn hình xem thông tin user");
             window.showAndWait();
         }
     }
@@ -257,15 +254,80 @@ public class GuestViewController implements Initializable {
             //tạo stage, chuyển ConferencesStatisticScene
             Stage window = new Stage();
             window.setScene(scene);
-            //window.setResizable(false);
+            window.setResizable(false);
             window.initModality(Modality.APPLICATION_MODAL);
+            window.setTitle("Màn hình thống kê hội nghị của user");
             window.showAndWait();   
         }
     }
     
-    
-    
+    /**
+     * Đăng nhập quyền admin khi click vào adminLoginButton
+     * 
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    private void clickOnAdminLoginButton(ActionEvent event) throws IOException{
+        //hiển thị dialog đăng nhập và lấy username, password mà người dùng
+        //đã nhập trong dialog
+        Optional<Pair<String, String>> result = LoginDialog.showLoginDialog("Đăng nhập quyền admin");   
+        
+        //người dùng thoát dialog và ko lấy được chuỗi
+        if(result.isPresent() == false){
+            return;
+        }
+        
+        //người dùng đã yêu cầu login quyền admin
+        String username = result.get().getKey();
+        String password = result.get().getValue();
 
+        //kiểm tra tài khoản và mật khẩu đăng nhập có hợp lệ
+        boolean check = checkAdminValid(username, password);
+        if (check == true) {  //hợp lệ
+            //chuyển sang màn hình quản lý của admin
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("AdminScene.fxml"));   //lấy location màn hình AdminScene
+
+            //tạo scene
+            Parent detailConferenceParent = loader.load();
+            Scene detailConferenceScene = new Scene(detailConferenceParent);
+            
+            //gửi thông tin loginAdmin nếu đã đăng nhập sang AdminScene
+            AdminSceneController controller = loader.getController();
+            controller.receiveLoginAdminInfor(this.loginAdmin);
+
+            //tạo stage, chuyển AdminScene
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(detailConferenceScene);
+            window.setResizable(false);
+            window.setTitle("Màn hình quyền admin");
+            window.show();
+        } else {
+            AlertDialog.showAlertDialog("Tài khoản và mật khẩu không hợp lệ");
+        }
+    }
+    
+    /**
+     * Kiểm tra username và pass để đăng nhập quyền admin có hợp lệ
+     * @param username
+     * @param password
+     * @return 
+     */
+    private boolean checkAdminValid(String username, String password){
+        password = MD5Library.MD5(password);
+        List<Admins> list = AdminsDAO.getAll();
+        boolean flag = false;
+        
+        for (Admins admin : list) {
+            if (admin.getUsername().compareTo(username) == 0 && admin.getPass().compareTo(password) == 0) {   //hợp lệ
+                flag = true;
+                this.loginAdmin = admin;
+                break;
+            }
+        }
+        return flag;
+    }
     
     
 }

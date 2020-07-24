@@ -119,10 +119,12 @@ public class ConferencesStatisticSceneController implements Initializable {
      */
     private List<Conferences> getConferencesListUserJoin(){
         List<Conferences> list = new ArrayList<>();
+        List<Conferences> fullConferencesList = ConferencesDAO.getAll();
         RegisteredUsers registeredUser;
         
-        for (Conferences conferences : ConferencesDAO.getAll()) {
-            registeredUser = RegisteredUsersDAO.getByID(new RegisteredUsersId(loginUser.getUserId(), conferences.getConferenceId()));
+        for (Conferences conferences : fullConferencesList) {
+            registeredUser = RegisteredUsersDAO.getByID(
+                    new RegisteredUsersId(loginUser.getUserId(), conferences.getConferenceId()));
             
             //không tìm thấy user tham gia conference này
             //hoặc user chưa được chấp nhận tham gia thì loại ra khỏi list
@@ -172,6 +174,7 @@ public class ConferencesStatisticSceneController implements Initializable {
             Stage window = new Stage();
             window.setScene(detailConferenceScene);
             window.setResizable(false);
+            window.setTitle("Màn hình xem chi tiết hội nghị");
             window.initModality(Modality.APPLICATION_MODAL);
             window.show();
         }

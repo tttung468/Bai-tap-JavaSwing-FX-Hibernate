@@ -26,12 +26,13 @@ public class LoginDialog {
     /**
      * xuất hộp thoại login
      * 
+     * @param title
      * @return 
      */
-    public static Optional<Pair<String, String>> showLoginDialog() {
+    public static Optional<Pair<String, String>> showLoginDialog(String title) {
         // Tạo loginDialog
         Dialog<Pair<String, String>> loginDialog = new Dialog<>();
-        loginDialog.setTitle("Hộp thoại đăng nhập");
+        loginDialog.setTitle(title);
         loginDialog.setResizable(true);
         loginDialog.setGraphic(new ImageView(new Image("\\doan_quanlyhoinghi\\conferenceImage\\login.jpg")));
         

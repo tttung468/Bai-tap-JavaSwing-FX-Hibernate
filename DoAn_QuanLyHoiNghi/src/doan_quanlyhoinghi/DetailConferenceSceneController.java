@@ -5,6 +5,7 @@
  */
 package doan_quanlyhoinghi;
 
+import DAO.ConferencesDAO;
 import DAO.RegisteredUsersDAO;
 import DAO.UsersDAO;
 import java.io.File;
@@ -16,30 +17,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import pojos.Conferences;
@@ -97,38 +85,42 @@ public class DetailConferenceSceneController implements Initializable {
      * @param conference
      */
     public void receiveConferenceInfor(Conferences conference) {
-        String tempStr = "\\doan_quanlyhoinghi\\conferenceImage\\";
-        SimpleDateFormat ft = new SimpleDateFormat("E yyyy-MM-dd");
+        
+        if (conference != null) {
+            this.selectedConference = ConferencesDAO.getByID(conference.getConferenceId());
+            
+            String tempStr = "\\doan_quanlyhoinghi\\conferenceImage\\";
+            SimpleDateFormat ft = new SimpleDateFormat("E yyyy-MM-dd");
 
-        //lấy đường dẫn đang làm việc
-        File file = new File("");
-        String currentDirectory = file.getAbsolutePath() + "\\src\\doan_quanlyhoinghi\\conferenceImage\\"
-                + conference.getImageLink();
-        //System.out.println(currentDirectory);
+            //lấy đường dẫn đang làm việc
+            File file = new File("");
+            String currentDirectory = file.getAbsolutePath() + "\\src\\doan_quanlyhoinghi\\conferenceImage\\"
+                    + selectedConference.getImageLink();
+            //System.out.println(currentDirectory);
 
-        //kiểm tra ảnh có tồn tại
-        //nếu tồn tại thì lấy ảnh lên, không tồn tại thì lấy ảnh mặc định
-        File f = new File(currentDirectory);
-        if (f.exists()) {
-            //System.out.println("File existed");
-            tempStr += conference.getImageLink();   //ảnh tồn tại
-        } else {
-            //System.out.println("File not found!");
-            tempStr += "image0.jpg";      //ảnh không tồn tại, lấy ảnh mặc định
+            //kiểm tra ảnh có tồn tại
+            //nếu tồn tại thì lấy ảnh lên, không tồn tại thì lấy ảnh mặc định
+            File f = new File(currentDirectory);
+            if (f.exists()) {
+                //System.out.println("File existed");
+                tempStr += selectedConference.getImageLink();   //ảnh tồn tại
+            } else {
+                //System.out.println("File not found!");
+                tempStr += "image0.jpg";      //ảnh không tồn tại, lấy ảnh mặc định
+            }
+            Image image = new Image(tempStr);   //lấy ảnh
+
+            this.nameConferenceLabel.setText(selectedConference.getConferenceName());
+            this.briefDescriptionLabel.setText(selectedConference.getBriefDescription());
+            this.detailedDescriptionLabel.setText(selectedConference.getDetailedDescription());
+            this.placeLabel.setText(selectedConference.getPlaces().getPlaceName());
+            tempStr = Integer.toString(selectedConference.getRegisteredAttendees());
+            tempStr += " / " + Integer.toString(selectedConference.getPlaces().getCapacity());
+            this.attendeesLabel.setText(tempStr);
+            this.timeLabel.setText(ft.format(selectedConference.getOrganizedTime()));
+            this.imageView.setImage(image);
+            adjustImageCenter();
         }
-        Image image = new Image(tempStr);   //lấy ảnh
-
-        this.selectedConference = conference;
-        this.nameConferenceLabel.setText(selectedConference.getConferenceName());
-        this.briefDescriptionLabel.setText(selectedConference.getBriefDescription());
-        this.detailedDescriptionLabel.setText(selectedConference.getDetailedDescription());
-        this.placeLabel.setText(selectedConference.getPlaces().getPlaceName());
-        tempStr = Integer.toString(selectedConference.getRegisteredAttendees());
-        tempStr += " / " + Integer.toString(selectedConference.getPlaces().getCapacity());
-        this.attendeesLabel.setText(tempStr);
-        this.timeLabel.setText(ft.format(conference.getOrganizedTime()));
-        this.imageView.setImage(image);
-        adjustImageCenter();
     }
 
     /**
@@ -137,7 +129,9 @@ public class DetailConferenceSceneController implements Initializable {
      * @param loginUser
      */
     public void receiveLoginUserInfor(Users loginUser) {
-        this.loginUser = loginUser;
+        if(loginUser != null){
+            this.loginUser = UsersDAO.getByID(loginUser.getUserId());
+        }
     }
 
     /**
@@ -179,7 +173,7 @@ public class DetailConferenceSceneController implements Initializable {
     @FXML
     private void clickOnbackGuestSceneButton(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("GuestView.fxml"));   //lấy location màn hình DetailConferenceScene
+        loader.setLocation(getClass().getResource("GuestView.fxml"));   //lấy location màn hình GuestView
 
         //tạo scene
         Parent guestViewParent = loader.load();
@@ -193,6 +187,7 @@ public class DetailConferenceSceneController implements Initializable {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(guestViewScene);
         window.setResizable(false);
+        window.setTitle("Màn hình chính");
         window.show();
     }
 
@@ -210,7 +205,7 @@ public class DetailConferenceSceneController implements Initializable {
         
         //hiển thị dialog đăng nhập và lấy username, password mà người dùng
         //đã nhập trong dialog
-        Optional<Pair<String, String>> result = LoginDialog.showLoginDialog();   
+        Optional<Pair<String, String>> result = LoginDialog.showLoginDialog("Đăng nhập người dùng");   
         
         //người dùng thoát dialog và ko lấy được chuỗi
         if(result.isPresent() == false){

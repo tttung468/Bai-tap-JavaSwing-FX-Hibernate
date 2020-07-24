@@ -85,4 +85,10 @@ public class Places implements java.io.Serializable {
         this.conferenceses = conferenceses;
     }
 
+    @Override
+    public String toString() {
+        return "Places{" + "placeId=" + placeId + '}';
+    }
+
+    
 }

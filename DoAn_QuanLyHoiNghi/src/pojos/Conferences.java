@@ -131,4 +131,10 @@ public class Conferences implements java.io.Serializable {
         this.registeredUserses = registeredUserses;
     }
 
+    @Override
+    public String toString() {
+        return "Conferences{" + "conferenceId=" + conferenceId + '}';
+    }
+
+    
 }
