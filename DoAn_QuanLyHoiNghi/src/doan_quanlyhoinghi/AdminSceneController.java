@@ -72,8 +72,24 @@ public class AdminSceneController implements Initializable {
     }
 
     @FXML
-    private void clickOnUserManageButton(ActionEvent event) {
+    private void clickOnUserManageButton(ActionEvent event) throws IOException {
+        //chuyển sang màn hình quản lý users của admin
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("UsersManageScene.fxml"));   //lấy location màn hình UserManageScene
+
+        //tạo scene
+        Parent detailConferenceParent = loader.load();
+        Scene detailConferenceScene = new Scene(detailConferenceParent);
         
+        //gửi thông tin loginAdmin nếu đã đăng nhập sang UserManageScene
+        UsersManageSceneController controller = loader.getController();
+        controller.receiveLoginAdminInfor(this.loginAdmin);
+
+        //tạo stage, chuyển UserManageScene
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(detailConferenceScene);
+        window.setTitle("Màn hình quản lý users");
+        window.show();
     }
 
     @FXML

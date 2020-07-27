@@ -118,12 +118,15 @@ public class ConferencesManageSceneController implements Initializable {
        
         //set up column
         idConferenceCol = new TableColumn<>("ID");
+        idConferenceCol.setMinWidth(50);
         idConferenceCol.setCellValueFactory(new PropertyValueFactory<>("conferenceId"));
         
         conferenceNameCol = new TableColumn<>("Tên hội nghị");
+        conferenceNameCol.setMinWidth(280);
         conferenceNameCol.setCellValueFactory(new PropertyValueFactory<>("conferenceName"));
         
         placeNameCol = new TableColumn<>("Địa điểm");
+        placeNameCol.setMinWidth(170);
         placeNameCol.setCellValueFactory(new Callback<CellDataFeatures<Conferences, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(CellDataFeatures<Conferences, String> p) {
@@ -132,6 +135,7 @@ public class ConferencesManageSceneController implements Initializable {
         });
         
         attendeesCol = new TableColumn<>("Tham gia");
+        attendeesCol.setMinWidth(50);
         attendeesCol.setCellValueFactory(new Callback<CellDataFeatures<Conferences, Integer>, ObservableValue<Integer>>() {
             @Override
             public ObservableValue<Integer> call(CellDataFeatures<Conferences, Integer> p) {
@@ -140,6 +144,7 @@ public class ConferencesManageSceneController implements Initializable {
         });
 
         capacityCol = new TableColumn<>("Sức chứa");
+        capacityCol.setMinWidth(50);
         capacityCol.setCellValueFactory(new Callback<CellDataFeatures<Conferences, Integer>, ObservableValue<Integer>>() {
             @Override
             public ObservableValue<Integer> call(CellDataFeatures<Conferences, Integer> p) {

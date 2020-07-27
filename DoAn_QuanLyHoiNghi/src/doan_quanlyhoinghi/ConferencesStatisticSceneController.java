@@ -192,7 +192,7 @@ public class ConferencesStatisticSceneController implements Initializable {
 
             // 2. Set Predicate của filteredData bất cứ khi nào bộ lọc thay đổi
             filteredData.setPredicate(conference -> {
-                // hiển thị tất cả hội nghị khi filterTextField trốn 
+                // hiển thị tất cả hội nghị khi filterTextField trống 
                 if (filterTextField.getText() == null || filterTextField.getText().isEmpty()) {
                     return true;
                 }
@@ -203,7 +203,7 @@ public class ConferencesStatisticSceneController implements Initializable {
                 if (conference.getConferenceName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true; // tìm thấy ConferenceName
                 } else if (String.valueOf(conference.getOrganizedTime()).indexOf(lowerCaseFilter) != -1) {
-                    return true; // tìm thấy conferenceID
+                    return true; // tìm thấy OrganizedTime
                 } else {
                     return false; // không tìm thấy trường dữ liệu phù hợp
                 }
