@@ -12,11 +12,17 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,9 +32,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.Pair;
 import pojos.Conferences;
 import pojos.RegisteredUsers;
@@ -51,6 +62,8 @@ public class DetailConferenceSceneController implements Initializable {
     @FXML
     private Button joinConferenceButton;
     @FXML
+    private Button watchAttendeesButton;
+    @FXML
     private Label nameConferenceLabel;
     @FXML
     private Label briefDescriptionLabel;
@@ -67,6 +80,7 @@ public class DetailConferenceSceneController implements Initializable {
 
     private Conferences selectedConference;
     private Users loginUser;
+    
        
 
     /**
@@ -312,6 +326,93 @@ public class DetailConferenceSceneController implements Initializable {
         }
     }
     
+    /**
+     * mở dialog hiển thị số người tham dự của hội nghị
+     * @param event 
+     */
+    @FXML
+    private void clickOnWatchAttendeesButton(ActionEvent event) {
+        //tạo table view
+        TableView<RegisteredUsers> userTableView = createRegisteredUsersTableView();
+        
+        //layout
+        VBox layout = new VBox();
+        layout.getChildren().addAll(userTableView);
+        
+        //scene
+        Scene scene = new Scene(layout, 440, 400);
+        
+        //stage
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Danh sách các user tham dự hội nghị");
+        window.setScene(scene);
+        window.setResizable(false);
+        window.showAndWait();
+    }
+    
+    private TableView<RegisteredUsers> createRegisteredUsersTableView(){
+        //lấy DS các user đã duyệt tham dự hội nghị
+        ObservableList<RegisteredUsers> registeredUsersList = FXCollections.observableArrayList();
+        registeredUsersList.addAll(getAcceptedRegisterdUserList()); //lấy DS
+        
+        //set up column
+        TableColumn<RegisteredUsers, Integer> idColumn =  new TableColumn<>("ID");
+        idColumn.setMinWidth(50);
+        idColumn.setStyle("-fx-alignment: center");
+        idColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<RegisteredUsers, Integer>, ObservableValue<Integer>>() {
+            @Override
+            public ObservableValue<Integer> call(TableColumn.CellDataFeatures<RegisteredUsers, Integer> p) {
+                return new SimpleIntegerProperty(p.getValue().getUsers().getUserId()).asObject();
+            }
+        });
+        
+        TableColumn<RegisteredUsers, String> nameUserCol = new TableColumn<>("Full name");
+        nameUserCol.setMinWidth(200);
+        nameUserCol.setStyle("-fx-alignment: center");
+        nameUserCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<RegisteredUsers, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<RegisteredUsers, String> p) {
+                return new SimpleStringProperty(p.getValue().getUsers().getFullName());
+            }
+        });
+        
+        TableColumn<RegisteredUsers, String> emailCol = new TableColumn<>("Email");
+        emailCol.setMinWidth(200);
+        emailCol.setStyle("-fx-alignment: center");
+        emailCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<RegisteredUsers, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<RegisteredUsers, String> p) {
+                return new SimpleStringProperty(p.getValue().getUsers().getEmail());
+            }
+        });
+        
+        //set up table view
+        TableView<RegisteredUsers> userTableView = new TableView<>();
+        userTableView.getColumns().addAll(idColumn, nameUserCol, emailCol);
+        userTableView.setItems(registeredUsersList);
+        
+        return userTableView;
+    }
+    
+    /**
+     * Lấy DS registerdUser đã được chấp nhận tham gia hội nghị
+     * 
+     * @return 
+     */
+    private List<RegisteredUsers> getAcceptedRegisterdUserList(){
+        List<RegisteredUsers> list = RegisteredUsersDAO.getAllByIDConference(selectedConference.getConferenceId());
+        List<RegisteredUsers> result = new ArrayList<>();
+        
+        for (RegisteredUsers registeredUsers : list) {
+            if(registeredUsers.getIsAccepted() == true){    //user đã được duyệt tham dự
+                result.add(registeredUsers);
+            }
+                    
+        }
+        
+        return result;
+    }
 
     /**
      * kiểm tra loginUser đã tham gia selectedConference hay chưa, trả về true
@@ -387,4 +488,6 @@ public class DetailConferenceSceneController implements Initializable {
         this.loginButton.setVisible(false);
         this.backGuestSceneButton.setVisible(false);
     }
+
+    
 }

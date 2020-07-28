@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="570.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doan_quanlyhoinghi.DetailConferenceSceneController">
+<AnchorPane id="AnchorPane" prefHeight="572.0" prefWidth="1119.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doan_quanlyhoinghi.DetailConferenceSceneController">
    <children>
-      <Button fx:id="backGuestSceneButton" mnemonicParsing="false" onAction="#clickOnbackGuestSceneButton" prefHeight="39.0" prefWidth="204.0" text="Quay về màn hình chính">
+      <Button fx:id="backGuestSceneButton" mnemonicParsing="false" onAction="#clickOnbackGuestSceneButton" prefHeight="40.0" prefWidth="200.0" text="Quay về màn hình chính">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -21,7 +21,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="registerUserButton" layoutX="540.0" layoutY="513.0" mnemonicParsing="false" onAction="#clickOnRegisterUserButton" prefHeight="39.0" prefWidth="171.0" text="Đăng ký tài khoản mới">
+      <Button fx:id="registerUserButton" layoutX="760.0" mnemonicParsing="false" onAction="#clickOnRegisterUserButton" prefHeight="40.0" prefWidth="170.0" text="Đăng ký tài khoản mới">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -96,13 +96,18 @@
             </Label>
          </children>
       </GridPane>
-      <ImageView fx:id="imageView" fitHeight="400.0" fitWidth="514.0" layoutX="552.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="loginButton" layoutX="930.0" layoutY="513.0" mnemonicParsing="false" onAction="#clickOnLoginButton" prefHeight="39.0" prefWidth="135.0" text="Đăng nhập">
+      <ImageView fx:id="imageView" fitHeight="400.0" fitWidth="544.0" layoutX="552.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="loginButton" layoutX="947.0" mnemonicParsing="false" onAction="#clickOnLoginButton" prefHeight="40.0" prefWidth="170.0" text="Đăng nhập">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="joinConferenceButton" layoutX="749.0" layoutY="513.0" mnemonicParsing="false" onAction="#clickOnJoinConferenceButton" prefHeight="39.0" prefWidth="146.0" text="Đăng ký tham gia">
+      <Button fx:id="joinConferenceButton" layoutX="861.0" layoutY="513.0" mnemonicParsing="false" onAction="#clickOnJoinConferenceButton" prefHeight="40.0" prefWidth="170.0" text="Đăng ký tham gia">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="watchAttendeesButton" layoutX="614.0" layoutY="513.0" mnemonicParsing="false" onAction="#clickOnWatchAttendeesButton" prefHeight="40.0" prefWidth="170.0" text="Xem DS tham dự">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

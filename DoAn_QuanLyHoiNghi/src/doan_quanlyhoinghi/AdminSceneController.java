@@ -5,8 +5,6 @@
  */
 package doan_quanlyhoinghi;
 
-import DAO.AdminsDAO;
-import DAO.UsersDAO;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -22,7 +20,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import pojos.Admins;
-import pojos.Users;
 
 /**
  * FXML Controller class

@@ -6,18 +6,13 @@
 package doan_quanlyhoinghi;
 
 import DAO.ConferencesDAO;
-import DAO.PlacesDAO;
 import DAO.RegisteredUsersDAO;
 import DAO.UsersDAO;
 import java.io.IOException;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -41,7 +36,6 @@ import javafx.stage.Stage;
 import org.controlsfx.control.table.TableRowExpanderColumn;
 import pojos.Admins;
 import pojos.Conferences;
-import pojos.Places;
 import pojos.RegisteredUsers;
 import pojos.Users;
 

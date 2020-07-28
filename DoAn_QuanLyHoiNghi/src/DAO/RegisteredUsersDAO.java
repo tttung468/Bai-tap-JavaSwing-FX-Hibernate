@@ -89,6 +89,31 @@ public class RegisteredUsersDAO {
         return list;
     }
 
+    public static List<RegisteredUsers> getAllByIDConference(int id) {
+        List<RegisteredUsers> list = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+
+        try {
+            String hql = "from RegisteredUsers where conference_id like :id";
+            Query query = session.createQuery(hql);
+            query.setString("id", "%" + id + "%");
+
+            tx = session.beginTransaction();
+            list = query.list();    //get all
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return list;
+    }
+    
     public static boolean insert(RegisteredUsers registeredUser) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
