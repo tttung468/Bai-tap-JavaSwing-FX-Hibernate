@@ -246,7 +246,11 @@ public class ConferencesStatisticSceneController implements Initializable {
                         new RegisteredUsersId(loginUser.getUserId(), conference.getConferenceId()));
                 
                 if(registeredUser != null){
-                    RegisteredUsersDAO.delete(registeredUser);
+                    Conferences conference1 = registeredUser.getConferences();
+                    int n = registeredUser.getConferences().getRegisteredAttendees();
+                    conference1.setRegisteredAttendees(n - 1);
+                    ConferencesDAO.update(conference1);  //cập nhật lại số người tham gia
+                    RegisteredUsersDAO.delete(registeredUser);  //xóa DS tham dự
                     AlertDialog.showAlertDialog("Hủy tham gia thành công");
                 } else {
                     AlertDialog.showAlertDialog("Hội nghị này đã hủy tham gia");

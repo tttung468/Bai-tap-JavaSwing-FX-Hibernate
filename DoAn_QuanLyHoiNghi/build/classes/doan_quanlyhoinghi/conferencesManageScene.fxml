@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="679.0" prefWidth="1281.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doan_quanlyhoinghi.ConferencesManageSceneController">
+   <children>
+      <TableView fx:id="conferenceTableView" layoutX="573.0" layoutY="55.0" prefHeight="610.0" prefWidth="700.0" />
+      <AnchorPane layoutX="13.0" layoutY="55.0" prefHeight="299.0" prefWidth="558.0">
+         <children>
+            <TextField fx:id="nameConferenceText" layoutY="2.0" prefHeight="39.0" prefWidth="556.0" promptText="Tên hội nghị">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="briefDescriptionText" layoutY="48.0" prefHeight="39.0" prefWidth="556.0" promptText="Giới thiệu ngắn gọn">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="detailDescriptionText" layoutY="95.0" prefHeight="39.0" prefWidth="556.0" promptText="Giới thiệu chi tiết">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="imageLinkText" layoutX="2.0" layoutY="143.0" prefHeight="39.0" prefWidth="556.0" promptText="Tên file ảnh (...\src\doan_quanlyhoinghi\conferenceImage)">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="timeText" layoutY="191.0" prefHeight="39.0" prefWidth="556.0" promptText="Thời gian diễn ra">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="placeText" layoutY="238.0" prefHeight="39.0" prefWidth="556.0" promptText="ID địa điểm tổ chức">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="14.0" layoutY="450.0" prefHeight="214.0" prefWidth="556.0">
+         <children>
+            <TableView fx:id="registerdUserTableView" prefHeight="214.0" prefWidth="374.0">
+              <columns>
+                <TableColumn fx:id="idRegisteredUserCol" prefWidth="180.7999849319458" style="-fx-alignment: CENTER;" text="ID người dùng" />
+                <TableColumn fx:id="idRegisteredConferenceCol" prefWidth="194.40000915527344" style="-fx-alignment: CENTER;" text="ID hội nghị" />
+              </columns>
+            </TableView>
+            <Button fx:id="acceptUserButton" layoutX="395.0" layoutY="174.0" mnemonicParsing="false" onAction="#clickOnAcceptUserButton" text="Duyệt tham gia">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <Button fx:id="backButton" layoutX="13.0" layoutY="14.0" mnemonicParsing="false" onAction="#clickOnBackButton" prefHeight="37.0" prefWidth="123.0" text="Quay về">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="detailConferenceButton" layoutX="794.0" layoutY="14.0" mnemonicParsing="false" onAction="#clickOnDetailConferenceButton" text="Xem chi tiết hội nghị">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="insertConferenceButton" layoutX="197.0" layoutY="354.0" mnemonicParsing="false" onAction="#clickOnInsertConferenceButton" prefHeight="39.0" prefWidth="189.0" text="Thêm hội nghị mới">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

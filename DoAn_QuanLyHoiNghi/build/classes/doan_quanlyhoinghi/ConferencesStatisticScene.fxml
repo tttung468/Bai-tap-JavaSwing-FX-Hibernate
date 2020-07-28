@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="605.0" prefWidth="898.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doan_quanlyhoinghi.ConferencesStatisticSceneController">
+   <children>
+      <Label layoutX="161.0" layoutY="21.0" prefHeight="72.0" prefWidth="575.0" text="Các hội nghị được duyệt tham dự">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <TableView fx:id="conferenceStatisticTable" layoutX="17.0" layoutY="164.0" onMouseClicked="#clickOnTableView" prefHeight="354.0" prefWidth="858.0">
+        <columns>
+          <TableColumn fx:id="IDCol" prefWidth="79.19998550415039" style="-fx-alignment: CENTER;" text="ID" />
+          <TableColumn fx:id="conferenceNameCol" prefWidth="313.59996032714844" text="Tên hội nghị" />
+            <TableColumn fx:id="briefDescriptionCol" minWidth="0.0" prefWidth="297.60003662109375" text="Giới thiệu ngắn gọn" />
+            <TableColumn fx:id="timeCol" minWidth="0.0" prefWidth="168.79998779296875" style="-fx-alignment: CENTER;" text="Thời gian diễn ra" />
+        </columns>
+      </TableView>
+      <Button fx:id="watchingDetailButton" layoutX="341.0" layoutY="539.0" mnemonicParsing="false" onAction="#clickOnWatchingDetailButton" prefHeight="51.0" prefWidth="210.0" text="Xem chi tiết hội nghị">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <TextField fx:id="filterTextField" layoutX="14.0" layoutY="115.0" prefHeight="26.0" prefWidth="305.0" promptText="Nhập để tìm kiếm">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+      <Button fx:id="filterButton" layoutX="341.0" layoutY="115.0" mnemonicParsing="false" onAction="#clickOnFilterButton" prefHeight="39.0" prefWidth="126.0" text="Tìm kiếm">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Button fx:id="cancelButton" layoutX="712.0" layoutY="115.0" mnemonicParsing="false" onAction="#clickOnCancelButton" prefHeight="39.0" prefWidth="162.0" text="Hủy tham dự">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

@@ -1,6 +1,8 @@
 CREATE DATABASE conference_manager_db;
 USE conference_manager_db;
 
+-- Mat khau cua tat ca user va admin: 123
+
 CREATE TABLE places (
 	place_id INT(11) NOT NULL AUTO_INCREMENT,
     place_name VARCHAR(50) NOT NULL,
@@ -36,15 +38,15 @@ CREATE TABLE conferences (
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id, registered_attendees)
 VALUES ('1999 UEFA Champions League Final','Match between MU vs Bayer'
 ,'Man United won the treble of trophies (the Premier League, FA Cup and C1)'
-,'image1.jpg', '1999-05-26',1,2);
+,'image1.jpg', '1999-05-26',1,5);
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id, registered_attendees)
 VALUES ('G7 summit','G7 = Group of Seven'
 ,'Core G7 members :Canada, France, Germany, Italy, Japan, UK, US'
-,'image2.jpg','4000-02-02',2,3);
+,'image2.jpg','4000-02-02',2,4);
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id, registered_attendees)
 VALUES ('The Last Dance Tour','The sixth concert tour of Big Bang'
 ,'The Last Dance Tour was Big Bang''s sixth concert tour in Japan'
-,'image3.jpg','4000-09-01',1,5);
+,'image3.jpg','4000-09-01',1,0);
 INSERT INTO conferences(conference_name, brief_description, detailed_description, image_link, organized_time, organized_place_id)
 VALUES ('The 2018 FIFA World Cup','The 2018 FIFA World Cup in Russia'
 ,'An international football tournament contested by men''s national teams'
@@ -61,7 +63,6 @@ INSERT INTO conferences(conference_name, brief_description, detailed_description
 VALUES ('The 2020 Summer Olympics','officially the Games of the XXXII Olympiad'
 ,'the Games were rescheduled for 2021 as a result of the COVID-19 pandemic'
 ,'image7.jpg','4000-12-12',6);
-,'image7.jpg','4000-12-12',6);
 
 CREATE TABLE admins (
 	admin_id INT(11) NOT NULL AUTO_INCREMENT,
@@ -73,8 +74,8 @@ CREATE TABLE admins (
 
 	CONSTRAINT pk_admins PRIMARY KEY(admin_id)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
-INSERT INTO admins(full_name, username, pass, email) VALUES ('Admin 1', 'admin1', '123', 'admin1@gmail.com');
-INSERT INTO admins(full_name, username, pass, email) VALUES ('Admin 2', 'admin2', '123', 'admin2@gmail.com');
+INSERT INTO admins(full_name, username, pass, email) VALUES ('Admin 001', 'admin1', '202cb962ac59075b964b07152d234b70', 'admin001@gmail.com');
+INSERT INTO admins(full_name, username, pass, email) VALUES ('Admin 002', 'admin2', '202cb962ac59075b964b07152d234b70', 'admin002@gmail.com');
 
 CREATE TABLE users (
 	user_id INT(11) NOT NULL AUTO_INCREMENT,
@@ -87,16 +88,16 @@ CREATE TABLE users (
 
 	CONSTRAINT pk_users PRIMARY KEY(user_id)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
-INSERT INTO users(full_name, username, pass, email) VALUES ('User 1', 'user1', '24c9e15e52afc47c225b757e7bee1f9d', 'user1@gmail.com');
-INSERT INTO users(full_name, username, pass, email, is_blocked) VALUES ('User 2', 'user2', '7e58d63b60197ceb55a1c487989a3720', 'user2@gmail.com', TRUE);
-INSERT INTO users(full_name, username, pass, email) VALUES ('User 3', 'user3', '92877af70a45fd6a2ed7fe81e1236b78', 'user3@gmail.com');
-INSERT INTO users(full_name, username, pass, email) VALUES ('User 4', 'user4', '3f02ebe3d7929b091e3d8ccfde2f3bc6', 'user4@gmail.com');
-INSERT INTO users(full_name, username, pass, email) VALUES ('User 5', 'user5', '0a791842f52a0acfbb3a783378c066b8', 'user5@gmail.com');
-INSERT INTO users(full_name, username, pass, email) VALUES ('User 6', 'user6', 'affec3b64cf90492377a8114c86fc093', 'user6@gmail.com');
-INSERT INTO users(full_name, username, pass, email) VALUES ('User 7', 'user7', '3e0469fb134991f8f75a2760e409c6ed', 'user7@gmail.com');
-INSERT INTO users(full_name, username, pass, email) VALUES ('User 8', 'user8', '7668f673d5669995175ef91b5d171945', 'user8@gmail.com');
-INSERT INTO users(full_name, username, pass, email) VALUES ('User 9', 'user9', '8808a13b854c2563da1a5f6cb2130868', 'user9@gmail.com');
-INSERT INTO users(full_name, username, pass, email) VALUES ('User 10', 'user10', '990d67a9f94696b1abe2dccf06900322', 'user10@gmail.com');
+INSERT INTO users(full_name, username, pass, email) VALUES ('User 001', 'user1', '202cb962ac59075b964b07152d234b70', 'user001@gmail.com');
+INSERT INTO users(full_name, username, pass, email, is_blocked) VALUES ('User 002', 'user2', '202cb962ac59075b964b07152d234b70', 'user002@gmail.com', TRUE);
+INSERT INTO users(full_name, username, pass, email) VALUES ('User 003', 'user3', '202cb962ac59075b964b07152d234b70', 'user003@gmail.com');
+INSERT INTO users(full_name, username, pass, email) VALUES ('User 004', 'user4', '202cb962ac59075b964b07152d234b70', 'user004@gmail.com');
+INSERT INTO users(full_name, username, pass, email) VALUES ('User 005', 'user5', '202cb962ac59075b964b07152d234b70', 'user005@gmail.com');
+INSERT INTO users(full_name, username, pass, email) VALUES ('User 006', 'user6', '202cb962ac59075b964b07152d234b70', 'user006@gmail.com');
+INSERT INTO users(full_name, username, pass, email) VALUES ('User 007', 'user7', '202cb962ac59075b964b07152d234b70', 'user007@gmail.com');
+INSERT INTO users(full_name, username, pass, email) VALUES ('User 008', 'user8', '202cb962ac59075b964b07152d234b70', 'user008@gmail.com');
+INSERT INTO users(full_name, username, pass, email) VALUES ('User 009', 'user9', '202cb962ac59075b964b07152d234b70', 'user009@gmail.com');
+INSERT INTO users(full_name, username, pass, email) VALUES ('User 0010', 'user10', '202cb962ac59075b964b07152d234b70', 'user0010@gmail.com');
 
 CREATE TABLE registered_users (
     user_id INT(11) NOT NULL,
@@ -108,11 +109,6 @@ CREATE TABLE registered_users (
     CONSTRAINT fk_users FOREIGN KEY (user_id) REFERENCES users(user_id),
     CONSTRAINT fk_conferences FOREIGN KEY (conference_id) REFERENCES conferences(conference_id)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
-INSERT INTO registered_users (user_id, conference_id, is_accepted) VALUES (1, 1, TRUE);
-INSERT INTO registered_users (user_id, conference_id, is_accepted) VALUES (1, 2, TRUE);
-INSERT INTO registered_users (user_id, conference_id, is_accepted) VALUES (2, 1, TRUE);
-INSERT INTO registered_users (user_id, conference_id) VALUES (3, 1);
-
 
 
 
