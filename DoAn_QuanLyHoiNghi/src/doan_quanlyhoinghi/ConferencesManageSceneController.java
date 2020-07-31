@@ -224,7 +224,7 @@ public class ConferencesManageSceneController implements Initializable {
      */
     private GridPane createEditor(TableRowExpanderColumn.TableRowDataFeatures<Conferences> param) {
         SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd"); 
-        Conferences conference = param.getValue();
+        Conferences conference = ConferencesDAO.getByID(param.getValue().getConferenceId());
         GridPane editor = new GridPane();
         editor.setPadding(new Insets(10));
         editor.setHgap(10);
@@ -259,6 +259,13 @@ public class ConferencesManageSceneController implements Initializable {
             Places place = PlacesDAO.getByID(Integer.parseInt(localPlaceText.getText()));
             Places prePlace = conference.getPlaces();   //lấy giá trị place trước khi nhập Place mới
             if(place != null){  //tồn tại
+                //kiểm tra địa điểm có đủ chỗ để hội nghị diễn ra
+                if(place.getCapacity() < conference.getRegisteredAttendees()){
+                    AlertDialog.showAlertDialog("Địa điểm không đủ chỗ để tổ chức hội nghị");
+                    param.toggleExpanded();
+                    return;
+                }
+                
                 conference.setPlaces(place);    //cập nhật id place
             } else {
                 AlertDialog.showAlertDialog("Địa điểm không tồn tại");
@@ -351,15 +358,18 @@ public class ConferencesManageSceneController implements Initializable {
         RegisteredUsers registeredUser = registerdUserTableView.getSelectionModel().getSelectedItem();
         
         if(registeredUser != null){
+            //lây lại thông tin của registeredUser nếu thay đổi thông tin của hội nghị
+            RegisteredUsers updatedUser = RegisteredUsersDAO.getByID(registeredUser.getId());
+            
             //Kiểm tra hội nghị có còn chỗ trống
-            Conferences conference = registeredUser.getConferences();
+            Conferences conference = updatedUser.getConferences();
             int capacity = conference.getPlaces().getCapacity();
             int attendees = conference.getRegisteredAttendees();
             
             if(capacity - attendees > 0){   //còn chỗ
                 //cập nhật trạng thái của registerUser
-                registeredUser.setIsAccepted(true);
-                boolean check1 = RegisteredUsersDAO.update(registeredUser);
+                updatedUser.setIsAccepted(true);
+                boolean check1 = RegisteredUsersDAO.update(updatedUser);
                 
                 //cập nhật lại hội nghị
                 conference.setRegisteredAttendees(attendees + 1);
